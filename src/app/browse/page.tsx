@@ -101,7 +101,7 @@ async function ProjectsList({ search, page }: { search?: string; page: number })
           height="200"
           alt="no gruops placeholder image"
         ></Image>
-        <h2 className="text-2xl">No projects matching your search</h2>
+        <h2 className="text-2xl text-white">No projects matching your search</h2>
       </div>
     )
   }

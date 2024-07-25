@@ -1,22 +1,22 @@
-import { ProjectCard } from "@/app/dashboard/project-card";
-import { Button } from "@/components/ui/button";
-import { assertAuthenticated } from "@/lib/session";
-import { cn } from "@/lib/utils";
-import { cardStyles, pageTitleStyles } from "@/styles/common";
-import { btnIconStyles, btnStyles } from "@/styles/icons";
-import { getProjectsByUserUseCase } from "@/use-cases/projects";
-import { Search } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { CreateProjectButton } from "./create-project-button";
-import { PageHeader } from "@/components/page-header";
+import { ProjectCard } from "@/app/dashboard/project-card"
+import { Button } from "@/components/ui/button"
+import { assertAuthenticated } from "@/lib/session"
+import { cn } from "@/lib/utils"
+import { cardStyles, pageTitleStyles } from "@/styles/common"
+import { btnIconStyles, btnStyles } from "@/styles/icons"
+import { getProjectsByUserUseCase } from "@/use-cases/projects"
+import { Search } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { CreateProjectButton } from "./create-project-button"
+import { PageHeader } from "@/components/page-header"
 
 export default async function DashboardPage() {
-  const user = await assertAuthenticated();
+  const user = await assertAuthenticated()
 
-  const projects = await getProjectsByUserUseCase(user);
+  const projects = await getProjectsByUserUseCase(user)
 
-  const hasProjects = projects.length > 0;
+  const hasProjects = projects.length > 0
 
   if (!hasProjects) {
     return (
@@ -29,12 +29,7 @@ export default async function DashboardPage() {
           <h1 className={pageTitleStyles}>Your Projects</h1>
         </div>
 
-        <div
-          className={cn(
-            cardStyles,
-            "flex flex-col items-center gap-6 p-12 w-full"
-          )}
-        >
+        <div className={cn(cardStyles, "flex flex-col items-center gap-6 p-12 w-full")}>
           <Image
             src="/empty-state/no-data.svg"
             width="200"
@@ -54,11 +49,11 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
-  const ownedProjects = projects.filter((project) => project.userId === user.id);
-  const memberProjects = projects.filter((project) => project.userId !== user.id);
+  const ownedProjects = projects.filter((project) => project.userId === user.id)
+  const memberProjects = projects.filter((project) => project.userId !== user.id)
 
   return (
     <>
@@ -79,7 +74,7 @@ export default async function DashboardPage() {
         </div>
 
         {ownedProjects.length === 0 && (
-          <p className="flex gap-8 items-center mt-8 py-4 rounded border bg-gray-800 px-4">
+          <p className="flex gap-8 items-center mt-8 py-4 rounded border bg-gray-800 px-4 text-white">
             You don't manage any projects
           </p>
         )}
@@ -100,9 +95,7 @@ export default async function DashboardPage() {
         </div>
 
         {memberProjects.length === 0 && (
-          <p
-            className={cn(cardStyles, "flex gap-8 items-center mt-8 py-4 px-4")}
-          >
+          <p className={cn(cardStyles, "flex gap-8 items-center mt-8 py-4 px-4")}>
             You're not part of any projects
           </p>
         )}
@@ -119,5 +112,5 @@ export default async function DashboardPage() {
         </div>
       </div>
     </>
-  );
+  )
 }
