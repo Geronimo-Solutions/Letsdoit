@@ -74,7 +74,7 @@ export default async function DashboardPage() {
         </div>
 
         {ownedProjects.length === 0 && (
-          <p className="flex gap-8 items-center mt-8 py-4 rounded border dark:bg-gray-800 px-4">
+          <p className="flex gap-8 items-center mt-8 py-4 rounded border bg-gray-800 px-4 text-white">
             You don't manage any projects
           </p>
         )}
