@@ -94,14 +94,14 @@ async function ProjectsList({ search, page }: { search?: string; page: number })
 
   if (data.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 gap-8 bg-slate-900 rounded-xl">
+      <div className="flex flex-col items-center justify-center py-12 gap-8 dark:bg-slate-900 rounded-xl">
         <Image
           src="/empty-state/mountain.svg"
           width="200"
           height="200"
           alt="no gruops placeholder image"
         ></Image>
-        <h2 className="text-2xl text-white">No projects matching your search</h2>
+        <h2 className="text-2xl">No projects matching your search</h2>
       </div>
     )
   }
