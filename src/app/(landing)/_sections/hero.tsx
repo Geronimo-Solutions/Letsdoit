@@ -33,7 +33,7 @@ export function HeroSection() {
 
               <SignedOut>
                 <Button asChild>
-                  <Link href="/sign-up">Create an account</Link>
+                  <Link href={"/sign-in"}>Create an Account</Link>
                 </Button>
               </SignedOut>
             </div>
