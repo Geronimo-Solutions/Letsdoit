@@ -1,4 +1,4 @@
-Notice! this starter kit isn't fully finished, but I'm just making this public for now if anyone wants to add onto it. I'm getting burned out on working on this so I'm open to anyone wanting to help contribute to fixing up any bugs they find, etc.
+Notice! This starter kit isn't fully finished, but I'm just making this public for now if anyone wants to add onto it. I'm getting burned out on working on this so I'm open to anyone wanting to help contribute to fixing up any bugs they find, etc.
 
 # Code Walkthrough (Early Access)
 
