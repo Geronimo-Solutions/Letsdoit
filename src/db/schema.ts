@@ -114,7 +114,7 @@ export const newsletters = pgTable("gf_newsletter", {
   email: text("email").notNull().unique(),
 });
 
-export const groups = pgTable("gf_group", {
+export const projects = pgTable("gf_project", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -135,9 +135,9 @@ export const memberships = pgTable("gf_membership", {
   userId: serial("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  groupId: serial("groupId")
+  projectId: serial("projectId")
     .notNull()
-    .references(() => groups.id, { onDelete: "cascade" }),
+    .references(() => projects.id, { onDelete: "cascade" }),
   role: roleEnum("role").default("member"),
 });
 
@@ -147,16 +147,16 @@ export const invites = pgTable("gf_invites", {
     .notNull()
     .default(sql`gen_random_uuid()`)
     .unique(),
-  groupId: serial("groupId")
+  projectId: serial("projectId")
     .notNull()
-    .references(() => groups.id, { onDelete: "cascade" }),
+    .references(() => projects.id, { onDelete: "cascade" }),
 });
 
 export const events = pgTable("gf_events", {
   id: serial("id").primaryKey(),
-  groupId: serial("groupId")
+  projectId: serial("projectId")
     .notNull()
-    .references(() => groups.id, { onDelete: "cascade" }),
+    .references(() => projects.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description").notNull(),
   imageId: text("imageId"),
@@ -168,9 +168,9 @@ export const notifications = pgTable("gf_notifications", {
   userId: serial("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  groupId: serial("groupId")
+  projectId: serial("projectId")
     .notNull()
-    .references(() => groups.id, { onDelete: "cascade" }),
+    .references(() => projects.id, { onDelete: "cascade" }),
   postId: integer("postId"),
   isRead: boolean("isRead").notNull().default(false),
   type: text("type").notNull(),
@@ -183,9 +183,9 @@ export const posts = pgTable("gf_posts", {
   userId: serial("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  groupId: serial("groupId")
+  projectId: serial("projectId")
     .notNull()
-    .references(() => groups.id, { onDelete: "cascade" }),
+    .references(() => projects.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   message: text("message").notNull(),
   createdOn: timestamp("createdOn", { mode: "date" }).notNull(),
@@ -199,9 +199,9 @@ export const reply = pgTable("gf_replies", {
   postId: serial("postId")
     .notNull()
     .references(() => posts.id, { onDelete: "cascade" }),
-  groupId: serial("groupId")
+  projectId: serial("projectId")
     .notNull()
-    .references(() => groups.id, { onDelete: "cascade" }),
+    .references(() => projects.id, { onDelete: "cascade" }),
   message: text("message").notNull(),
   createdOn: timestamp("createdOn", { mode: "date" }).notNull(),
 });
@@ -213,7 +213,7 @@ export const reply = pgTable("gf_replies", {
  * in your code.
  */
 
-export const groupRelations = relations(groups, ({ many }) => ({
+export const projectRelations = relations(projects, ({ many }) => ({
   memberships: many(memberships),
 }));
 
@@ -223,15 +223,15 @@ export const membershipRelations = relations(memberships, ({ one }) => ({
     fields: [memberships.userId],
     references: [profiles.userId],
   }),
-  group: one(groups, {
-    fields: [memberships.groupId],
-    references: [groups.id],
+  project: one(projects, {
+    fields: [memberships.projectId],
+    references: [projects.id],
   }),
 }));
 
 export const postsRelationships = relations(posts, ({ one }) => ({
   user: one(users, { fields: [posts.userId], references: [users.id] }),
-  group: one(groups, { fields: [posts.groupId], references: [groups.id] }),
+  project: one(projects, { fields: [posts.projectId], references: [projects.id] }),
 }));
 
 export const followingRelationship = relations(following, ({ one }) => ({
@@ -253,8 +253,8 @@ export const followingRelationship = relations(following, ({ one }) => ({
  * in a component or function.
  */
 export type Subscription = typeof subscriptions.$inferSelect;
-export type Group = typeof groups.$inferSelect;
-export type NewGroup = typeof groups.$inferInsert;
+export type Project = typeof projects.$inferSelect;
+export type NewProject = typeof projects.$inferInsert;
 export type Membership = typeof memberships.$inferSelect;
 
 export type Event = typeof events.$inferSelect;
@@ -273,4 +273,4 @@ export type NewReply = typeof reply.$inferInsert;
 
 export type Following = typeof following.$inferSelect;
 
-export type GroupId = Group["id"];
+export type ProjectId = Project["id"];

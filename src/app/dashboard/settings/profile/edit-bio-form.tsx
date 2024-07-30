@@ -4,7 +4,7 @@ import { EditorProvider } from "@tiptap/react";
 import {
   MenuBar,
   extensions,
-} from "../../groups/[groupId]/info/edit-group-info-form";
+} from "../../projects/[projectId]/info/edit-project-info-form";
 import { LoaderButton } from "@/components/loader-button";
 import { useServerAction } from "zsa-react";
 import { updateProfileBioAction } from "./actions";

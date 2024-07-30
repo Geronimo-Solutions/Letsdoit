@@ -1,25 +1,25 @@
 import { AuthenticationError, NotFoundError } from "@/app/util";
 import { getEvent } from "@/data-access/events";
-import { getGroupById } from "@/data-access/groups";
+import { getProjectById } from "@/data-access/projects";
 import { getMembership } from "@/data-access/membership";
-import { Group, GroupId } from "@/db/schema";
+import { Project, ProjectId } from "@/db/schema";
 import { UserSession } from "@/use-cases/types";
 
-function isGroupOwner(user: UserSession, group: Group) {
-  return user.id === group.userId;
+function isProjectOwner(user: UserSession, project: Project) {
+  return user.id === project.userId;
 }
 
-export async function hasAccessToGroup(
+export async function hasAccessToProject(
   user: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
-  const group = await getGroupById(groupId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
-  if (group.isPublic) {
+  if (project.isPublic) {
     return true;
   }
 
@@ -27,123 +27,123 @@ export async function hasAccessToGroup(
     return false;
   }
 
-  const membership = await getMembership(user.id, groupId);
+  const membership = await getMembership(user.id, projectId);
 
-  const isGroupOwner = group.userId === user.id;
-  return !!membership || isGroupOwner;
+  const isProjectOwner = project.userId === user.id;
+  return !!membership || isProjectOwner;
 }
 
-export async function isAdminOrOwnerOfGroup(
+export async function isAdminOrOwnerOfProject(
   user: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
   if (!user) {
     return false;
   }
 
-  const membership = await getMembership(user.id, groupId);
-  const group = await getGroupById(groupId);
+  const membership = await getMembership(user.id, projectId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
   const isAdmin = membership?.role === "admin";
-  const isOwner = group.userId === user.id;
+  const isOwner = project.userId === user.id;
 
   return isAdmin || isOwner;
 }
 
-export async function assertAdminOrOwnerOfGroup(
+export async function assertAdminOrOwnerOfProject(
   user: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
   if (!user) {
     throw new NotFoundError("User not found");
   }
 
-  if (!(await isAdminOrOwnerOfGroup(user, groupId))) {
+  if (!(await isAdminOrOwnerOfProject(user, projectId))) {
     throw new AuthenticationError();
   }
 }
 
-export async function assertGroupOwner(
+export async function assertProjectOwner(
   user: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
-  const group = await getGroupById(groupId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new NotFoundError("Group not found");
+  if (!project) {
+    throw new NotFoundError("Project not found");
   }
 
   if (!user) {
     throw new AuthenticationError();
   }
 
-  if (!isGroupOwner(user, group)) {
+  if (!isProjectOwner(user, project)) {
     throw new AuthenticationError();
   }
 
-  return group;
+  return project;
 }
 
-export async function assertGroupMember(
+export async function assertProjectMember(
   user: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
-  const group = await getGroupById(groupId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new NotFoundError("Group not found");
+  if (!project) {
+    throw new NotFoundError("Project not found");
   }
 
   if (!user) {
     throw new AuthenticationError();
   }
 
-  const membership = await getMembership(user.id, groupId);
-  const isGroupOwner = group.userId === user.id;
+  const membership = await getMembership(user.id, projectId);
+  const isProjectOwner = project.userId === user.id;
 
-  if (!membership && !isGroupOwner) {
+  if (!membership && !isProjectOwner) {
     throw new AuthenticationError();
   }
 
-  return group;
+  return project;
 }
 
-export async function assertGroupVisible(
+export async function assertProjectVisible(
   user: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
   if (!user) {
     throw new AuthenticationError();
   }
 
-  const group = await assertGroupExists(groupId);
+  const project = await assertProjectExists(projectId);
 
-  if (group.isPublic) {
-    return { group, user };
+  if (project.isPublic) {
+    return { project, user };
   }
 
-  const membership = await getMembership(user.id, groupId);
+  const membership = await getMembership(user.id, projectId);
 
-  const isGroupOwner = group.userId === user.id;
-  if (!membership && !isGroupOwner) {
+  const isProjectOwner = project.userId === user.id;
+  if (!membership && !isProjectOwner) {
     throw new AuthenticationError();
   }
 
-  return { group, user };
+  return { project, user };
 }
 
-export async function assertGroupExists(groupId: GroupId) {
-  const group = await getGroupById(groupId);
+export async function assertProjectExists(projectId: ProjectId) {
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new NotFoundError("Group not found");
+  if (!project) {
+    throw new NotFoundError("Project not found");
   }
 
-  return group;
+  return project;
 }
 
 export async function assertEventExists(eventId: number) {

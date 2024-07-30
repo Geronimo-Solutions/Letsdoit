@@ -1,27 +1,27 @@
-import { getGroupById } from "@/data-access/groups";
+import { getProjectById } from "@/data-access/projects";
 import { createInvite, deleteInvite, getInvite } from "@/data-access/invites";
 import { addMembership } from "@/data-access/membership";
-import { GroupId } from "@/db/schema";
+import { ProjectId } from "@/db/schema";
 import { InviteEmail } from "@/emails/invite";
 import { sendEmail } from "@/lib/send-email";
 import {
-  assertAdminOrOwnerOfGroup,
-  assertGroupExists,
-  isAdminOrOwnerOfGroup,
+  assertAdminOrOwnerOfProject,
+  assertProjectExists,
+  isAdminOrOwnerOfProject,
 } from "@/use-cases/authorization";
 import { UserSession } from "@/use-cases/types";
 
 export async function sendInviteUseCase(
   authenticatedUser: UserSession,
-  { email, groupId }: { email: string; groupId: GroupId }
+  { email, projectId }: { email: string; projectId: ProjectId }
 ) {
-  await assertAdminOrOwnerOfGroup(authenticatedUser, groupId);
-  const group = await assertGroupExists(groupId);
-  const invite = await createInvite(groupId);
+  await assertAdminOrOwnerOfProject(authenticatedUser, projectId);
+  const project = await assertProjectExists(projectId);
+  const invite = await createInvite(projectId);
   await sendEmail(
     email,
-    "You have been invited to join a group",
-    <InviteEmail group={group} token={invite.token} />
+    "You have been invited to join a project",
+    <InviteEmail project={project} token={invite.token} />
   );
 }
 
@@ -35,8 +35,8 @@ export async function acceptInviteUseCase(
     throw new Error("This invite does not exist");
   }
 
-  await addMembership(authenticatedUser.id, invite.groupId);
+  await addMembership(authenticatedUser.id, invite.projectId);
   await deleteInvite(token);
 
-  return invite.groupId;
+  return invite.projectId;
 }

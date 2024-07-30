@@ -1,5 +1,5 @@
 import { database } from "@/db";
-import { GroupId, invites } from "@/db/schema";
+import { ProjectId, invites } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function getInvite(token: string) {
@@ -12,11 +12,11 @@ export async function deleteInvite(token: string) {
   await database.delete(invites).where(eq(invites.token, token));
 }
 
-export async function createInvite(groupId: GroupId) {
+export async function createInvite(projectId: ProjectId) {
   const [invite] = await database
     .insert(invites)
     .values({
-      groupId,
+      projectId,
     })
     .returning();
   return invite;

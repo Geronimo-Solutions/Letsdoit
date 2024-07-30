@@ -23,7 +23,7 @@ export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
             className="flex items-center justify-center gap-2"
           >
             <Link href={"/dashboard"}>
-              <UsersIcon className="w-4 h-4" /> Your Groups
+              <UsersIcon className="w-4 h-4" /> Your Projects
             </Link>
           </Button>
 
@@ -33,7 +33,7 @@ export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
             className="flex items-center justify-center gap-2"
           >
             <Link href={"/browse"}>
-              <SearchIcon className="w-4 h-4" /> Browse Groups
+              <SearchIcon className="w-4 h-4" /> Browse Projects
             </Link>
           </Button>
 
@@ -60,7 +60,7 @@ export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
           </Button>
 
           <Button variant={"link"} asChild>
-            <Link href={"/browse"}>Browse Groups</Link>
+            <Link href={"/browse"}>Browse Projects</Link>
           </Button>
         </div>
       )}

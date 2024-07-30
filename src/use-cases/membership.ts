@@ -1,5 +1,5 @@
 import { NotFoundError } from "@/app/util";
-import { getGroupById, getGroupsByUser } from "@/data-access/groups";
+import { getProjectById, getProjectsByUser } from "@/data-access/projects";
 import {
   addMembership,
   getMembership,
@@ -8,70 +8,70 @@ import {
   updateMembership,
 } from "@/data-access/membership";
 import { Role, UserId, UserSession } from "@/use-cases/types";
-import { assertGroupOwner, assertGroupVisible } from "./authorization";
+import { assertProjectOwner, assertProjectVisible } from "./authorization";
 
-export async function isGroupOwnerUseCase(
+export async function isProjectOwnerUseCase(
   authenticatedUser: UserSession | undefined,
-  groupId: number
+  projectId: number
 ) {
   if (!authenticatedUser) return false;
 
-  const group = await getGroupById(groupId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new NotFoundError("Group not found");
+  if (!project) {
+    throw new NotFoundError("Project not found");
   }
 
-  const isGroupOwner = group.userId === authenticatedUser.id;
-  return isGroupOwner;
+  const isProjectOwner = project.userId === authenticatedUser.id;
+  return isProjectOwner;
 }
 
-export async function isUserMemberOfGroupUseCase(
+export async function isUserMemberOfProjectUseCase(
   authenticatedUser: UserSession | undefined,
-  groupId: number
+  projectId: number
 ) {
   if (!authenticatedUser) return false;
 
-  const membership = await getMembership(authenticatedUser.id, groupId);
-  const group = await getGroupById(groupId);
+  const membership = await getMembership(authenticatedUser.id, projectId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
-  const isGroupOwner = group.userId === authenticatedUser.id;
-  return !!membership || isGroupOwner;
+  const isProjectOwner = project.userId === authenticatedUser.id;
+  return !!membership || isProjectOwner;
 }
 
-export async function isGroupVisibleToUserUseCase(
+export async function isProjectVisibleToUserUseCase(
   authenticatedUser: UserSession | undefined,
-  groupId: number
+  projectId: number
 ) {
-  return assertGroupVisible(authenticatedUser, groupId)
+  return assertProjectVisible(authenticatedUser, projectId)
     .then(() => true)
     .catch(() => false);
 }
 
-export async function joinGroupUseCase(
+export async function joinProjectUseCase(
   authenticatedUser: UserSession,
-  groupId: number
+  projectId: number
 ) {
-  const membership = await getMembership(authenticatedUser.id, groupId);
+  const membership = await getMembership(authenticatedUser.id, projectId);
   if (membership) {
-    throw new Error("User is already a member of this group");
+    throw new Error("User is already a member of this project");
   }
-  await addMembership(authenticatedUser.id, groupId);
+  await addMembership(authenticatedUser.id, projectId);
 }
 
-export async function leaveGroupUseCase(
+export async function leaveProjectUseCase(
   authenticatedUser: UserSession,
-  groupId: number
+  projectId: number
 ) {
-  const membership = await getMembership(authenticatedUser.id, groupId);
+  const membership = await getMembership(authenticatedUser.id, projectId);
   if (!membership) {
-    throw new Error("User is not a member of this group");
+    throw new Error("User is not a member of this project");
   }
-  await removeMembership(authenticatedUser.id, groupId);
+  await removeMembership(authenticatedUser.id, projectId);
 }
 
 export async function getUserMembershipsUseCase(userId: UserId) {
@@ -80,15 +80,15 @@ export async function getUserMembershipsUseCase(userId: UserId) {
 
 export async function getMembershipListUseCase(userId: UserId) {
   const memberships = await getMembershipsByUserId(userId);
-  const ownedGroups = await getGroupsByUser(userId);
+  const ownedProjects = await getProjectsByUser(userId);
 
   return [
-    ...ownedGroups.map((group) => ({
-      groupId: group.id,
+    ...ownedProjects.map((project) => ({
+      projectId: project.id,
       role: "admin" as Role,
     })),
     ...memberships.map((membership) => ({
-      groupId: membership.groupId,
+      projectId: membership.projectId,
       role: membership.role as Role,
     })),
   ];
@@ -96,29 +96,29 @@ export async function getMembershipListUseCase(userId: UserId) {
 
 export async function kickMemberUseCase(
   authenticatedUser: UserSession,
-  { userId, groupId }: { userId: UserId; groupId: number }
+  { userId, projectId }: { userId: UserId; projectId: number }
 ) {
-  const membership = await getMembership(userId, groupId);
+  const membership = await getMembership(userId, projectId);
   if (!membership) {
-    throw new Error("User is not a member of this group");
+    throw new Error("User is not a member of this project");
   }
-  await assertGroupOwner(authenticatedUser, groupId);
-  await removeMembership(userId, groupId);
+  await assertProjectOwner(authenticatedUser, projectId);
+  await removeMembership(userId, projectId);
 }
 
 export async function switchMemberRoleUseCase(
   authenticatedUser: UserSession,
   {
     userId,
-    groupId,
+    projectId,
     role,
-  }: { userId: UserId; groupId: number; role: "admin" | "member" }
+  }: { userId: UserId; projectId: number; role: "admin" | "member" }
 ) {
-  const membership = await getMembership(userId, groupId);
+  const membership = await getMembership(userId, projectId);
   if (!membership) {
-    throw new Error("User is not a member of this group");
+    throw new Error("User is not a member of this project");
   }
-  await assertGroupOwner(authenticatedUser, groupId);
+  await assertProjectOwner(authenticatedUser, projectId);
   await updateMembership(membership.id, {
     role,
   });

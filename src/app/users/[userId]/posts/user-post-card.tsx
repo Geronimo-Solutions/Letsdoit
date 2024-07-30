@@ -11,7 +11,7 @@ import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getGroupById } from "@/data-access/groups";
+import { getProjectById } from "@/data-access/projects";
 import { cardStyles, linkStyles } from "@/styles/common";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +51,7 @@ export async function UserPostCard({ post }: { post: Post }) {
   const canDeletePost = await canEditPostUseCase(user, post.id);
   const replyCount = await getReplyCountUseCase(user, post.id);
   // TODO: this should be a use case
-  const group = (await getGroupById(post.groupId))!;
+  const project = (await getProjectById(post.projectId))!;
 
   return (
     <div className={cn(cardStyles, "p-4 flex flex-col gap-4")}>
@@ -74,21 +74,21 @@ export async function UserPostCard({ post }: { post: Post }) {
           <Link
             scroll={false}
             className={linkStyles}
-            href={`/dashboard/groups/${group.id}/info`}
+            href={`/dashboard/projects/${project.id}/info`}
           >
-            {group.name}
+            {project.name}
           </Link>
         </div>
 
         {canDeletePost ? (
           <Button asChild className="w-fit">
-            <Link href={`/dashboard/groups/${post.groupId}/posts/${post.id}`}>
+            <Link href={`/dashboard/projects/${post.projectId}/posts/${post.id}`}>
               Manage post...
             </Link>
           </Button>
         ) : (
           <Button asChild className="w-fit" variant={"secondary"}>
-            <Link href={`/dashboard/groups/${post.groupId}/posts/${post.id}`}>
+            <Link href={`/dashboard/projects/${post.projectId}/posts/${post.id}`}>
               Read post...
             </Link>
           </Button>

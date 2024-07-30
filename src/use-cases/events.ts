@@ -1,17 +1,17 @@
-import { GroupId } from "@/db/schema";
+import { ProjectId } from "@/db/schema";
 import { UserSession } from "./types";
-import { getGroupById, getUsersInGroup } from "@/data-access/groups";
+import { getProjectById, getUsersInProject } from "@/data-access/projects";
 import {
-  assertAdminOrOwnerOfGroup,
+  assertAdminOrOwnerOfProject,
   assertEventExists,
-  assertGroupExists,
-  assertGroupVisible,
+  assertProjectExists,
+  assertProjectVisible,
 } from "./authorization";
 import {
   createEvent,
   deleteEvent,
   getEvent,
-  getEventsByGroupId,
+  getEventsByProjectId,
   updateEvent,
 } from "@/data-access/events";
 import {
@@ -20,25 +20,25 @@ import {
 } from "@/app-config";
 import { createUUID } from "@/util/uuid";
 import { uploadFileToBucket } from "@/lib/files";
-import { getGroupImageKey } from "./files";
+import { getProjectImageKey } from "./files";
 import { createNotification } from "@/data-access/notifications";
 import { NotFoundError } from "@/app/util";
 
 export async function getEventsUseCase(
   authenticatedUser: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
-  await assertGroupVisible(authenticatedUser, groupId);
-  const events = await getEventsByGroupId(groupId);
+  await assertProjectVisible(authenticatedUser, projectId);
+  const events = await getEventsByProjectId(projectId);
   return events;
 }
 
 export async function getUpcomingEventsUseCase(
   authenticatedUser: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
-  await assertGroupVisible(authenticatedUser, groupId);
-  const events = await getEventsByGroupId(groupId);
+  await assertProjectVisible(authenticatedUser, projectId);
+  const events = await getEventsByProjectId(projectId);
   const upcomingEvents = events.filter((event) => {
     return new Date(event.startsOn) > new Date();
   });
@@ -48,13 +48,13 @@ export async function getUpcomingEventsUseCase(
 export async function createEventUseCase(
   authenticatedUser: UserSession,
   {
-    groupId,
+    projectId,
     name,
     description,
     startsOn,
     eventImage,
   }: {
-    groupId: GroupId;
+    projectId: ProjectId;
     name: string;
     description: string;
     startsOn: Date;
@@ -73,12 +73,12 @@ export async function createEventUseCase(
     }
   }
 
-  const group = await assertGroupExists(groupId);
+  const project = await assertProjectExists(projectId);
 
-  await assertAdminOrOwnerOfGroup(authenticatedUser, groupId);
+  await assertAdminOrOwnerOfProject(authenticatedUser, projectId);
 
   const event = await createEvent({
-    groupId,
+    projectId,
     name,
     description,
     startsOn,
@@ -86,22 +86,22 @@ export async function createEventUseCase(
 
   if (eventImage) {
     const imageId = createUUID();
-    await uploadFileToBucket(eventImage, getGroupImageKey(groupId, imageId));
+    await uploadFileToBucket(eventImage, getProjectImageKey(projectId, imageId));
     await updateEvent(event.id, {
       imageId,
     });
   }
 
   // TODO: this could potentially be passed to a queue
-  const usersInGroup = await getUsersInGroup(groupId);
+  const usersInProject = await getUsersInProject(projectId);
 
   await Promise.all(
-    usersInGroup.map((user) =>
+    usersInProject.map((user) =>
       createNotification({
         userId: user.userId,
-        groupId: group.id,
+        projectId: project.id,
         type: "event",
-        message: `An event has been created for the "${group.name}" you joined.`,
+        message: `An event has been created for the "${project.name}" you joined.`,
         createdOn: new Date(),
       })
     )
@@ -137,7 +137,7 @@ export async function editEventUseCase(
   }
 
   const event = await assertEventExists(eventId);
-  await assertAdminOrOwnerOfGroup(authenticatedUser, event.groupId);
+  await assertAdminOrOwnerOfProject(authenticatedUser, event.projectId);
 
   await updateEvent(event.id, {
     name,
@@ -149,7 +149,7 @@ export async function editEventUseCase(
     const imageId = createUUID();
     await uploadFileToBucket(
       eventImage,
-      getGroupImageKey(event.groupId, imageId)
+      getProjectImageKey(event.projectId, imageId)
     );
     await updateEvent(event.id, {
       imageId,
@@ -168,7 +168,7 @@ export async function deleteEventUseCase(
     throw new NotFoundError("Event not found");
   }
 
-  await assertAdminOrOwnerOfGroup(authenticatedUser, event.groupId);
+  await assertAdminOrOwnerOfProject(authenticatedUser, event.projectId);
 
   await deleteEvent(eventId);
 

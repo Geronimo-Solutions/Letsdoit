@@ -16,12 +16,12 @@ export function HeroSection() {
               Discover like-minded individuals
             </Badge>
             <h1 className="text-5xl md:text-7xl max-w-3xl mt-10 leading-[1.2] font-semibold">
-              Create and Discover New Hobby Groups
+              Create and Discover New Hobby Projects
             </h1>
             <p className="mt-5 text-gray-500 text-lg max-w-[600px]">
               Our online service makes it easy to connect with others who share
               your interests, whether it's hiking, painting, or playing soccer.
-              Create or join a group, schedule meetups, and enjoy pursuing your
+              Create or join a project, schedule meetups, and enjoy pursuing your
               passions with new friends by your side. Start building your
               community today!
             </p>
@@ -43,7 +43,7 @@ export function HeroSection() {
             className="rounded-xl w-[400px] h-[400px]"
             width="200"
             height="200"
-            src="/group.jpeg"
+            src="/project.jpeg"
             alt="hero image"
           />
         </div>

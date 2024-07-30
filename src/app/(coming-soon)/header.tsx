@@ -13,7 +13,7 @@ export function ComingSoonHeader() {
             className="hover:text-blue-100 flex gap-1 items-center"
           >
             <Image
-              src="/group.jpeg"
+              src="/project.jpeg"
               width="60"
               height="60"
               alt="hero image"

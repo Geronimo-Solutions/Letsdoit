@@ -24,8 +24,8 @@ export function ProfileTabs({ userId }: { userId: UserId }) {
               <Link href={`/users/${userId}/posts`}>Recent Posts</Link>
             </TabsTrigger>
 
-            <TabsTrigger asChild value="groups">
-              <Link href={`/users/${userId}/groups`}>Groups</Link>
+            <TabsTrigger asChild value="projects">
+              <Link href={`/users/${userId}/projects`}>Projects</Link>
             </TabsTrigger>
 
             <TabsTrigger asChild value="followers">

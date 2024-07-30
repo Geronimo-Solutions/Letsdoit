@@ -1,6 +1,6 @@
 import { getPostById } from "@/data-access/posts";
 import { UserSession } from "./types";
-import { hasAccessToGroup, isAdminOrOwnerOfGroup } from "./authorization";
+import { hasAccessToProject, isAdminOrOwnerOfProject } from "./authorization";
 import {
   createReply,
   deleteReply,
@@ -29,10 +29,10 @@ export async function getRepliesForPostUseCase(
     throw new Error("Post not found");
   }
 
-  const hasAccess = await hasAccessToGroup(authenticatedUser, post.groupId);
+  const hasAccess = await hasAccessToProject(authenticatedUser, post.projectId);
 
   if (!hasAccess) {
-    throw new Error("User does not have access to this group");
+    throw new Error("User does not have access to this project");
   }
 
   const replies = await getRepliesOnPost(postId);
@@ -50,16 +50,16 @@ export async function createReplyUseCase(
     throw new Error("Post not found");
   }
 
-  const hasAccess = await hasAccessToGroup(authenticatedUser, post.groupId);
+  const hasAccess = await hasAccessToProject(authenticatedUser, post.projectId);
 
   if (!hasAccess) {
-    throw new Error("User does not have access to this group");
+    throw new Error("User does not have access to this project");
   }
 
   const createdReply = await createReply({
     postId: reply.postId,
     message: reply.message,
-    groupId: post.groupId,
+    projectId: post.projectId,
     userId: authenticatedUser.id,
     createdOn: new Date(),
   });
@@ -67,7 +67,7 @@ export async function createReplyUseCase(
   if (post.userId !== authenticatedUser.id) {
     await createNotification({
       userId: post.userId,
-      groupId: post.groupId,
+      projectId: post.projectId,
       postId: post.id,
       type: "reply",
       message: `Someone replied to your post titled ${post.title}.`,
@@ -94,9 +94,9 @@ export async function deleteReplyUseCase(
     throw new Error("Post not found");
   }
 
-  const hasAccess = await isAdminOrOwnerOfGroup(
+  const hasAccess = await isAdminOrOwnerOfProject(
     authenticatedUser,
-    post.groupId
+    post.projectId
   );
 
   if (!hasAccess && replyToDelete.userId !== authenticatedUser.id) {
@@ -147,9 +147,9 @@ export async function hasAccessToMutateReply(
     return null;
   }
 
-  const hasAccess = await isAdminOrOwnerOfGroup(
+  const hasAccess = await isAdminOrOwnerOfProject(
     authenticatedUser,
-    post.groupId
+    post.projectId
   );
 
   if (!hasAccess && replyToUpdate.userId !== authenticatedUser.id) {

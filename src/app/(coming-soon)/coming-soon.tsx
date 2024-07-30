@@ -65,7 +65,7 @@ export function ComingSoon() {
                 className="rounded-xl w-full shadow-xl hidden lg:block"
                 width="300"
                 height="200"
-                src="/group.jpeg"
+                src="/project.jpeg"
                 alt="hero image"
               />
             </div>

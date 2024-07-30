@@ -52,7 +52,7 @@ export function Footer() {
             className="gap-4 flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white"
           >
             <Image
-              src="/group.jpeg"
+              src="/project.jpeg"
               className="w-10 h-10 rounded-xl"
               alt="Landwind Logo"
               width="100"

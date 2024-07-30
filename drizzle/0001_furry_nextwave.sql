@@ -1,0 +1,1 @@
+ALTER TABLE "gf_subscriptions" ADD CONSTRAINT "gf_subscriptions_userId_unique" UNIQUE("userId");

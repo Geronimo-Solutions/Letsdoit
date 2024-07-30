@@ -21,7 +21,7 @@ export function MenuButton() {
             href="/dashboard"
             className="flex gap-2 items-center cursor-pointer"
           >
-            <UsersIcon className="w-4 h-4" /> Your Groups
+            <UsersIcon className="w-4 h-4" /> Your Projects
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
@@ -29,7 +29,7 @@ export function MenuButton() {
             href="/browse"
             className="flex gap-2 items-center cursor-pointer"
           >
-            <SearchIcon className="w-4 h-4" /> Browse Groups
+            <SearchIcon className="w-4 h-4" /> Browse Projects
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

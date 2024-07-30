@@ -1,9 +1,9 @@
 version: "3.9"
 services:
-  wdc-saas-starter-kit:
+  lets-do-it:
     image: postgres
     restart: always
-    container_name: wdc-saas-starter-kit
+    container_name: letsdoit
     ports:
       - 5432:5432
     environment:

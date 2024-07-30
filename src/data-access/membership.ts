@@ -3,27 +3,27 @@ import { Membership, memberships } from "@/db/schema";
 import { UserId } from "@/use-cases/types";
 import { and, eq } from "drizzle-orm";
 
-export async function getMembership(userId: UserId, groupId: number) {
+export async function getMembership(userId: UserId, projectId: number) {
   return await database.query.memberships.findFirst({
     where: and(
       eq(memberships.userId, userId),
-      eq(memberships.groupId, groupId)
+      eq(memberships.projectId, projectId)
     ),
   });
 }
 
-export async function removeMembership(userId: UserId, groupId: number) {
+export async function removeMembership(userId: UserId, projectId: number) {
   await database
     .delete(memberships)
     .where(
-      and(eq(memberships.userId, userId), eq(memberships.groupId, groupId))
+      and(eq(memberships.userId, userId), eq(memberships.projectId, projectId))
     );
 }
 
-export async function addMembership(userId: UserId, groupId: number) {
+export async function addMembership(userId: UserId, projectId: number) {
   await database.insert(memberships).values({
     userId,
-    groupId,
+    projectId,
   });
 }
 

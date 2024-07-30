@@ -1,32 +1,32 @@
 import { MAX_UPLOAD_IMAGE_SIZE } from "@/app-config";
-import { getGroupById, updateGroup } from "@/data-access/groups";
-import { GroupId } from "@/db/schema";
+import { getProjectById, updateProject } from "@/data-access/projects";
+import { ProjectId } from "@/db/schema";
 import {
   getFileUrl,
   getPresignedPostUrl,
   uploadFileToBucket,
 } from "@/lib/files";
 import {
-  assertAdminOrOwnerOfGroup,
-  assertGroupVisible,
-  hasAccessToGroup,
-  isAdminOrOwnerOfGroup,
+  assertAdminOrOwnerOfProject,
+  assertProjectVisible,
+  hasAccessToProject,
+  isAdminOrOwnerOfProject,
 } from "@/use-cases/authorization";
 import { UserSession } from "@/use-cases/types";
 import { createUUID } from "@/util/uuid";
 
-export async function getGroupImageUploadUrlUseCase(
+export async function getProjectImageUploadUrlUseCase(
   authenticatedUser: UserSession,
-  { groupId, contentType }: { groupId: GroupId; contentType: string }
+  { projectId, contentType }: { projectId: ProjectId; contentType: string }
 ) {
-  await assertAdminOrOwnerOfGroup(authenticatedUser, groupId);
-  const fileName = `${groupId}-image`;
+  await assertAdminOrOwnerOfProject(authenticatedUser, projectId);
+  const fileName = `${projectId}-image`;
   return getPresignedPostUrl(fileName, contentType);
 }
 
-export async function updateGroupImageUseCase(
+export async function updateProjectImageUseCase(
   authenticatedUser: UserSession,
-  { groupId, file }: { groupId: GroupId; file: File }
+  { projectId, file }: { projectId: ProjectId; file: File }
 ) {
   if (!file.type.startsWith("image/")) {
     throw new Error("File should be an image.");
@@ -36,26 +36,26 @@ export async function updateGroupImageUseCase(
     throw new Error("File size should be less than 5MB.");
   }
 
-  await assertAdminOrOwnerOfGroup(authenticatedUser, groupId);
+  await assertAdminOrOwnerOfProject(authenticatedUser, projectId);
 
   const imageId = createUUID();
 
-  await updateGroup(groupId, { bannerId: imageId });
-  await uploadFileToBucket(file, getGroupImageKey(groupId, imageId));
+  await updateProject(projectId, { bannerId: imageId });
+  await uploadFileToBucket(file, getProjectImageKey(projectId, imageId));
 }
 
-export function getGroupImageKey(groupId: GroupId, imageId: string) {
-  return `groups/${groupId}/images/${imageId}`;
+export function getProjectImageKey(projectId: ProjectId, imageId: string) {
+  return `projects/${projectId}/images/${imageId}`;
 }
 
-export async function getGroupImageUrlUseCase(
+export async function getProjectImageUrlUseCase(
   authenticatedUser: UserSession | undefined,
-  { groupId, imageId }: { groupId: GroupId; imageId: string }
+  { projectId, imageId }: { projectId: ProjectId; imageId: string }
 ) {
-  await assertGroupVisible(authenticatedUser, groupId);
+  await assertProjectVisible(authenticatedUser, projectId);
 
   const url = await getFileUrl({
-    key: getGroupImageKey(groupId, imageId),
+    key: getProjectImageKey(projectId, imageId),
   });
 
   return url;

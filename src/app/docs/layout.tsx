@@ -4,7 +4,7 @@ import { pageTree } from "@/app/source";
 
 export default function RootDocsLayout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout tree={pageTree} nav={{ title: "Group Finder" }}>
+    <DocsLayout tree={pageTree} nav={{ title: "Project Finder" }}>
       {children}
     </DocsLayout>
   );

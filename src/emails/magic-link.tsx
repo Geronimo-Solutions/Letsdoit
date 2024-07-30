@@ -20,7 +20,7 @@ import { applicationName } from "@/app-config";
 export const BASE_URL = env.HOST_NAME;
 
 export function MagicLinkEmail({ token }: { token: string }) {
-  const previewText = `You're been invted to a group!`;
+  const previewText = `You're been invted to a project!`;
   return (
     <Html>
       <Head />
@@ -31,7 +31,7 @@ export function MagicLinkEmail({ token }: { token: string }) {
             <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
               <Section className="mt-[32px]">
                 <Img
-                  src={`${BASE_URL}/group.jpeg`}
+                  src={`${BASE_URL}/project.jpeg`}
                   width="160"
                   height="48"
                   alt="StarterKit"
@@ -41,7 +41,7 @@ export function MagicLinkEmail({ token }: { token: string }) {
 
               <Section className="text-center mt-[32px] mb-[32px]">
                 <Text className="text-black font-medium text-[14px] leading-[24px] mb-8">
-                  You&apos;re magic link login is below, click to login. group.
+                  You&apos;re magic link login is below, click to login. project.
                 </Text>
 
                 <Text className="text-black font-medium text-[14px] leading-[24px]">

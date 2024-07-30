@@ -9,7 +9,7 @@ function FollowerCard({ profile }: { profile: Profile }) {
     <div key={profile.userId} className="flex items-center gap-4">
       <div className="bg-slate-900 flex gap-4 items-center hover:underline border rounded-lg p-4">
         <Avatar>
-          <AvatarImage src={profile.image || "/group.jpeg"} />
+          <AvatarImage src={profile.image || "/project.jpeg"} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Link href={`/users/${profile.userId}/info`}>

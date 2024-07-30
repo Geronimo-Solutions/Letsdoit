@@ -1,18 +1,18 @@
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import {
-  formGroupStyles,
+  formProjectStyles,
   pageTitleStyles,
   pageWrapperStyles,
 } from "@/styles/common";
-import { searchPublicGroupsUseCase } from "@/use-cases/groups";
+import { searchPublicProjectsUseCase } from "@/use-cases/projects";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GroupCard } from "@/app/dashboard/group-card";
+import { ProjectCard } from "@/app/dashboard/project-card";
 import { PageHeader } from "@/components/page-header";
 import Image from "next/image";
-import { GroupPagination } from "./pagination";
+import { ProjectPagination } from "./pagination";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 import Link from "next/link";
@@ -30,7 +30,7 @@ export default async function BrowsePage({
       <PageHeader>
         <div className="flex justify-between items-center">
           <div className="flex flex-col gap-8 flex-grow">
-            <h1 className={pageTitleStyles}>Browse Groups</h1>
+            <h1 className={pageTitleStyles}>Browse Projects</h1>
 
             <form
               key={search}
@@ -42,14 +42,14 @@ export default async function BrowsePage({
                 );
               }}
             >
-              <div className={formGroupStyles}>
+              <div className={formProjectStyles}>
                 <div className="flex gap-2 items-center">
                   <div className="flex relative max-w-md w-full">
                     <Input
                       defaultValue={search}
                       placeholder="basketball, programming, crafting, etc."
                       name="search"
-                      id="group"
+                      id="project"
                     />
                     {search && (
                       <Button
@@ -73,15 +73,15 @@ export default async function BrowsePage({
       </PageHeader>
 
       <div className={pageWrapperStyles}>
-        <Suspense fallback={<GroupsListSkeleton />}>
-          <GroupsList page={page} search={search} />
+        <Suspense fallback={<ProjectsListSkeleton />}>
+          <ProjectsList page={page} search={search} />
         </Suspense>
       </div>
     </>
   );
 }
 
-function GroupsListSkeleton() {
+function ProjectsListSkeleton() {
   return (
     <div className="grid grid-cols-3 gap-8">
       {new Array(6).fill("").map((v, idx) => (
@@ -95,8 +95,8 @@ function GroupsListSkeleton() {
   );
 }
 
-async function GroupsList({ search, page }: { search?: string; page: number }) {
-  const { data, perPage, total } = await searchPublicGroupsUseCase(
+async function ProjectsList({ search, page }: { search?: string; page: number }) {
+  const { data, perPage, total } = await searchPublicProjectsUseCase(
     search ?? "",
     page
   );
@@ -110,24 +110,24 @@ async function GroupsList({ search, page }: { search?: string; page: number }) {
           height="200"
           alt="no gruops placeholder image"
         ></Image>
-        <h2 className="text-2xl">No groups matching your search</h2>
+        <h2 className="text-2xl">No projects matching your search</h2>
       </div>
     );
   }
   return (
     <>
       <div className="grid grid-cols-3 gap-8">
-        {data.map((group) => (
-          <GroupCard
-            memberCount={group.memberCount.toString()}
-            key={group.id}
-            group={group}
+        {data.map((project) => (
+          <ProjectCard
+            memberCount={project.memberCount.toString()}
+            key={project.id}
+            project={project}
             buttonText="View"
           />
         ))}
       </div>
 
-      <GroupPagination
+      <ProjectPagination
         search={search ?? ""}
         page={page}
         totalPages={Math.ceil(total / perPage)}

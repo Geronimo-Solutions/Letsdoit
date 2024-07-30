@@ -1,34 +1,34 @@
-import { GroupId } from "@/db/schema";
+import { ProjectId } from "@/db/schema";
 import { UserSession } from "./types";
-import { getGroupById } from "@/data-access/groups";
-import { isGroupOwnerUseCase, isGroupVisibleToUserUseCase } from "./membership";
+import { getProjectById } from "@/data-access/projects";
+import { isProjectOwnerUseCase, isProjectVisibleToUserUseCase } from "./membership";
 import {
   createPost,
   deletePost,
   getPostById,
   getRecentPublicPostsByUserId,
-  getPostsInGroup,
+  getPostsInProject,
   updatePost,
 } from "@/data-access/posts";
-import { isAdminOrOwnerOfGroup } from "./authorization";
+import { isAdminOrOwnerOfProject } from "./authorization";
 import { AuthenticationError } from "@/app/util";
 
 // TODO: clean up this function
-export async function getPostsInGroupUseCase(
+export async function getPostsInProjectUseCase(
   authenticatedUser: UserSession | undefined,
-  groupId: GroupId
+  projectId: ProjectId
 ) {
-  const group = await getGroupById(groupId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
-  if (!isGroupVisibleToUserUseCase(authenticatedUser, groupId)) {
+  if (!isProjectVisibleToUserUseCase(authenticatedUser, projectId)) {
     throw new AuthenticationError();
   }
 
-  const posts = await getPostsInGroup(groupId);
+  const posts = await getPostsInProject(projectId);
   return posts;
 }
 
@@ -42,7 +42,7 @@ export async function getPostByIdUseCase(
     throw new Error("Post not found");
   }
 
-  if (!isGroupVisibleToUserUseCase(authenticatedUser, post.groupId)) {
+  if (!isProjectVisibleToUserUseCase(authenticatedUser, post.projectId)) {
     throw new AuthenticationError();
   }
 
@@ -52,28 +52,28 @@ export async function getPostByIdUseCase(
 export async function createPostUseCase(
   authenticatedUser: UserSession,
   {
-    groupId,
+    projectId,
     title,
     message,
   }: {
-    groupId: GroupId;
+    projectId: ProjectId;
     title: string;
     message: string;
   }
 ) {
-  const group = await getGroupById(groupId);
+  const project = await getProjectById(projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
-  if (!isGroupVisibleToUserUseCase(authenticatedUser, groupId)) {
+  if (!isProjectVisibleToUserUseCase(authenticatedUser, projectId)) {
     throw new AuthenticationError();
   }
 
   await createPost({
     userId: authenticatedUser.id,
-    groupId,
+    projectId,
     title,
     message,
     createdOn: new Date(),
@@ -94,15 +94,15 @@ export async function deletePostUseCase(
     throw new Error("Post not found");
   }
 
-  const group = await getGroupById(post.groupId);
+  const project = await getProjectById(post.projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
   const isPostOwner = post.userId === authenticatedUser.id;
 
-  if (!isGroupOwnerUseCase(authenticatedUser, group.id) && !isPostOwner) {
+  if (!isProjectOwnerUseCase(authenticatedUser, project.id) && !isPostOwner) {
     throw new AuthenticationError();
   }
 
@@ -129,15 +129,15 @@ export async function updatePostUseCase(
     throw new Error("Post not found");
   }
 
-  const group = await getGroupById(post.groupId);
+  const project = await getProjectById(post.projectId);
 
-  if (!group) {
-    throw new Error("Group not found");
+  if (!project) {
+    throw new Error("Project not found");
   }
 
   const isPostOwner = post.userId === authenticatedUser.id;
 
-  if (!isGroupOwnerUseCase(authenticatedUser, group.id) && !isPostOwner) {
+  if (!isProjectOwnerUseCase(authenticatedUser, project.id) && !isPostOwner) {
     throw new AuthenticationError();
   }
 
@@ -162,7 +162,7 @@ export async function canEditPostUseCase(
   }
 
   return (
-    (await isAdminOrOwnerOfGroup(authenticatedUser, post.groupId)) ||
+    (await isAdminOrOwnerOfProject(authenticatedUser, post.projectId)) ||
     post.userId === authenticatedUser.id
   );
 }

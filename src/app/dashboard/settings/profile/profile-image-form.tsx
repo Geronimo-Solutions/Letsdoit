@@ -47,7 +47,7 @@ export function ProfileImageForm() {
         }
         toast({
           title: "Image Updated",
-          description: "You've successfull updated your group image.",
+          description: "You've successfull updated your project image.",
         });
       });
     });

@@ -30,7 +30,7 @@ export function ResetPasswordEmail({ token }: { token: string }) {
             <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
               <Section className="mt-[32px]">
                 <Img
-                  src={`${BASE_URL}/group.jpeg`}
+                  src={`${BASE_URL}/project.jpeg`}
                   width="160"
                   height="48"
                   alt="StarterKit"

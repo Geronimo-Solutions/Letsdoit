@@ -1,5 +1,5 @@
 import { database } from "@/db";
-import { GroupId, Notification, notifications } from "@/db/schema";
+import { ProjectId, Notification, notifications } from "@/db/schema";
 import { UserId } from "@/use-cases/types";
 import { and, eq } from "drizzle-orm";
 
@@ -8,7 +8,7 @@ const MAX_NOTIFICATIONS_IN_HEADER = 3;
 
 export async function createNotification(notification: {
   userId: UserId;
-  groupId: GroupId;
+  projectId: ProjectId;
   postId?: number;
   type: string;
   message: string;

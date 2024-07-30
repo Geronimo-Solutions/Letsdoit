@@ -1,10 +1,10 @@
 import { database } from "@/db";
-import { GroupId, NewPost, Post, groups, posts, reply } from "@/db/schema";
+import { ProjectId, NewPost, Post, projects, posts, reply } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
-export async function getPostsInGroup(groupId: GroupId) {
+export async function getPostsInProject(projectId: ProjectId) {
   return await database.query.posts.findMany({
-    where: eq(posts.groupId, groupId),
+    where: eq(posts.projectId, projectId),
     limit: 20,
   });
 }
@@ -31,8 +31,8 @@ export async function getRecentPublicPostsByUserId(userId: number) {
   const results = await database
     .select()
     .from(posts)
-    .innerJoin(groups, eq(posts.groupId, groups.id))
-    .where(and(eq(groups.isPublic, true), eq(posts.userId, userId)))
+    .innerJoin(projects, eq(posts.projectId, projects.id))
+    .where(and(eq(projects.isPublic, true), eq(posts.userId, userId)))
     .limit(20);
   return results.map((result) => result.gf_posts);
 }

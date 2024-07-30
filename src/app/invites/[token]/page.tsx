@@ -22,8 +22,8 @@ export default async function InvitesPage({
   const user = await getCurrentUser();
 
   if (user) {
-    const groupId = await acceptInviteUseCase(user, { token });
-    redirect(`/dashboard/groups/${groupId}`);
+    const projectId = await acceptInviteUseCase(user, { token });
+    redirect(`/dashboard/projects/${projectId}`);
   }
 
   return (

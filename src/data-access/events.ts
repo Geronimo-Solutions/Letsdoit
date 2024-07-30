@@ -1,9 +1,9 @@
 import { database } from "@/db";
-import { Event, GroupId, NewEvent, events } from "@/db/schema";
+import { Event, ProjectId, NewEvent, events } from "@/db/schema";
 import { asc, eq } from "drizzle-orm";
 
 export async function createEvent(newEvent: {
-  groupId: GroupId;
+  projectId: ProjectId;
   name: string;
   description: string;
   startsOn: Date;
@@ -18,9 +18,9 @@ export async function getEvent(eventId: Event["id"]) {
   });
 }
 
-export async function getEventsByGroupId(groupId: GroupId) {
+export async function getEventsByProjectId(projectId: ProjectId) {
   return await database.query.events.findMany({
-    where: eq(events.groupId, groupId),
+    where: eq(events.projectId, projectId),
     orderBy: [asc(events.startsOn)],
   });
 }

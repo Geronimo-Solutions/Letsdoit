@@ -8,7 +8,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-export function GroupPagination({
+export function ProjectPagination({
   page,
   totalPages,
   search,

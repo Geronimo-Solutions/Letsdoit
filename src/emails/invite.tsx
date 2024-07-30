@@ -15,13 +15,13 @@ import {
 } from "@react-email/components";
 
 import { env } from "@/env";
-import { Group } from "@/db/schema";
+import { Project } from "@/db/schema";
 import { applicationName } from "@/app-config";
 
 export const BASE_URL = env.HOST_NAME;
 
-export function InviteEmail({ group, token }: { group: Group; token: string }) {
-  const previewText = `You're been invted to a group!`;
+export function InviteEmail({ project, token }: { project: Project; token: string }) {
+  const previewText = `You're been invted to a project!`;
   return (
     <Html>
       <Head />
@@ -32,7 +32,7 @@ export function InviteEmail({ group, token }: { group: Group; token: string }) {
             <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
               <Section className="mt-[32px]">
                 <Img
-                  src={`${BASE_URL}/group.jpeg`}
+                  src={`${BASE_URL}/project.jpeg`}
                   width="160"
                   height="48"
                   alt="StarterKit"
@@ -42,9 +42,9 @@ export function InviteEmail({ group, token }: { group: Group; token: string }) {
 
               <Section className="text-center mt-[32px] mb-[32px]">
                 <Text className="text-black font-medium text-[14px] leading-[24px] mb-8">
-                  You&apos; been invited to a group on groupfinder.com called{" "}
-                  {group.name}. Click the link below to login and access your
-                  group.
+                  You&apos; been invited to a project on projectfinder.com called{" "}
+                  {project.name}. Click the link below to login and access your
+                  project.
                 </Text>
 
                 <Text className="text-black font-medium text-[14px] leading-[24px]">
@@ -53,7 +53,7 @@ export function InviteEmail({ group, token }: { group: Group; token: string }) {
                     target="_blank"
                     className="text-[#2754C5] underline"
                   >
-                    Login to View Group
+                    Login to View Project
                   </Link>
                 </Text>
               </Section>
