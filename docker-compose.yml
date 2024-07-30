@@ -7,7 +7,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
