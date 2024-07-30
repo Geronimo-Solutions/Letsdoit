@@ -1,10 +1,10 @@
-import { SignedIn } from '@/components/auth';
-import { SignedOut } from '@/components/auth';
-import Container from '@/components/container';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import Link from 'next/link';
+import { SignedIn } from "@/components/auth"
+import { SignedOut } from "@/components/auth"
+import Container from "@/components/container"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import Link from "next/link"
 
 export function HeroSection() {
   return (
@@ -16,25 +16,24 @@ export function HeroSection() {
               Discover like-minded individuals
             </Badge>
             <h1 className="text-5xl md:text-7xl max-w-3xl mt-10 leading-[1.2] font-semibold">
-              Create and Discover New Hobby Projects
+              Create and Discover New Projects
             </h1>
             <p className="mt-5 text-gray-500 text-lg max-w-[600px]">
-              Our online service makes it easy to connect with others who share
-              your interests, whether it's hiking, painting, or playing soccer.
-              Create or join a project, schedule meetups, and enjoy pursuing your
-              passions with new friends by your side. Start building your
-              community today!
+              Our online service makes it easy to connect with others who share their
+              ideas, whether it's tech, wellness, or hobby. Create or join a project,
+              schedule meetups, and enjoy pursuing your dreams with new friends by your
+              side. Start your new journey today!
             </p>
             <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4 mt-10">
               <SignedIn>
                 <Button asChild>
-                  <Link href={'/dashboard'}>View Dashboard</Link>
+                  <Link href={"/dashboard"}>View Dashboard</Link>
                 </Button>
               </SignedIn>
 
               <SignedOut>
                 <Button asChild>
-                  <Link href={'/api/auth/signin'}>Create an Account</Link>
+                  <Link href={"/api/auth/signin"}>Create an Account</Link>
                 </Button>
               </SignedOut>
             </div>
@@ -49,5 +48,5 @@ export function HeroSection() {
         </div>
       </Container>
     </div>
-  );
+  )
 }
