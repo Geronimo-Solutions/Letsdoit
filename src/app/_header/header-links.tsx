@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import useMediaQuery from "@/hooks/use-media-query";
-import { BookIcon, SearchIcon, UsersIcon } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button"
+import useMediaQuery from "@/hooks/use-media-query"
+import { BookIcon, SearchIcon, UsersIcon } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
-  const path = usePathname();
-  const { isMobile } = useMediaQuery();
-  const isLandingPage = path === "/";
+  const path = usePathname()
+  const { isMobile } = useMediaQuery()
+  const isLandingPage = path === "/"
 
-  if (isMobile) return null;
+  if (isMobile) return null
 
   return (
     <>
@@ -37,6 +37,7 @@ export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
             </Link>
           </Button>
 
+          {/*
           <Button
             variant={"link"}
             asChild
@@ -46,6 +47,7 @@ export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
               <BookIcon className="w-4 h-4" /> API Docs
             </Link>
           </Button>
+              */}
         </div>
       )}
 
@@ -65,5 +67,5 @@ export function HeaderLinks({ isAuthenticated }: { isAuthenticated: boolean }) {
         </div>
       )}
     </>
-  );
+  )
 }
