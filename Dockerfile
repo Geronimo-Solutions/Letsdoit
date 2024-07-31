@@ -68,6 +68,7 @@ USER nextjs
 
 # ENV PORT=3000
 
+ARG PORT
 ARG HOSTNAME
 
 CMD ./run.sh
