@@ -1,6 +1,6 @@
-import { applicationName, companyName } from "@/app-config";
-import Image from "next/image";
-import Link from "next/link";
+import { applicationName, companyName } from "@/app-config"
+import Image from "next/image"
+import Link from "next/link"
 
 export function Footer() {
   return (
@@ -61,11 +61,10 @@ export function Footer() {
             {applicationName}
           </a>
           <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
-            © 2024 {applicationName}. All Rights Reserved. Built with ❤️ by{" "}
-            {companyName}
+            © 2024 {applicationName}. All Rights Reserved.
           </span>
         </div>
       </div>
     </>
-  );
+  )
 }
