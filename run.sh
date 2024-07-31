@@ -7,7 +7,8 @@ popd
 echo "Database migration completed."
 
 echo "Starting the server..."
-node server.js
+# node server.js
+npm run start
 if [ $? -ne 0 ]; then
   echo "Server failed to start"
   exit 1
