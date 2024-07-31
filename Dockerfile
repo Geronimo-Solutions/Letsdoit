@@ -70,4 +70,5 @@ ENV PORT=3000
 
 ARG HOSTNAME
 
-CMD ./run.sh
+# CMD ./run.sh
+CMD ["node", ".next/standalone/server.js"]
