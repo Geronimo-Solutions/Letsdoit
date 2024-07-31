@@ -64,11 +64,10 @@ WORKDIR /app
 
 USER nextjs
 
-EXPOSE 3000
+# EXPOSE 3000
 
-ENV PORT=3000
+# ENV PORT=3000
 
 ARG HOSTNAME
 
-# CMD ./run.sh
-CMD ["node", "server.js"]
+CMD ./run.sh
