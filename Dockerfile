@@ -5,7 +5,7 @@ FROM base AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN pnpm ci
+RUN npm ci
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -36,7 +36,7 @@ ARG CLOUDFLARE_BUCKET_NAME
 ARG NEXT_PUBLIC_POSTHOG_KEY
 ARG NEXT_PUBLIC_POSTHOG_HOST
 
-RUN pnpm run build
+RUN npm run build
 
 FROM base AS runner
 WORKDIR /app
@@ -58,7 +58,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/run.sh ./run.sh
 
-RUN cd drizzle/migrate && pnpm i
+RUN cd drizzle/migrate && npm i
 
 WORKDIR /app
 
