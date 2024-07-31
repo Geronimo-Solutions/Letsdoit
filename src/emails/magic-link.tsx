@@ -17,7 +17,7 @@ import {
 import { env } from "@/env";
 import { applicationName } from "@/app-config";
 
-export const BASE_URL = env.HOST_NAME;
+export const BASE_URL = env.HOSTNAME;
 
 export function MagicLinkEmail({ token }: { token: string }) {
   const previewText = `You're been invted to a project!`;

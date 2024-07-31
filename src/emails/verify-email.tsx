@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 
 import {
   Body,
@@ -12,12 +12,12 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from "@react-email/components"
 
-import { env } from "@/env";
-import { applicationName } from "@/app-config";
+import { env } from "@/env"
+import { applicationName } from "@/app-config"
 
-export const BASE_URL = env.HOST_NAME;
+export const BASE_URL = env.HOSTNAME
 
 export function VerifyEmail({ token }: { token: string }) {
   return (
@@ -64,5 +64,5 @@ export function VerifyEmail({ token }: { token: string }) {
         </React.Fragment>
       </Tailwind>
     </Html>
-  );
+  )
 }

@@ -102,9 +102,9 @@ You'll need to create a subscription product in stripe:
 3. Copy the price id
 4. paste price id into .env of **PRICE_ID**
 
-## HOST_NAME
+## HOSTNAME
 
-When deplying to production, you want to set HOST_NAME to your FQDN, such as `https://you-domain.com`
+When deplying to production, you want to set HOSTNAME to your FQDN, such as `https://you-domain.com`
 
 ## Auth Setup
 

@@ -131,11 +131,11 @@ export async function updateProfileImageUseCase(file: File, userId: UserId) {
 }
 
 export function getProfileImageUrl(userId: UserId, imageId: string) {
-  return `${env.HOST_NAME}/api/users/${userId}/images/${imageId ?? "default"}`;
+  return `${env.HOSTNAME}/api/users/${userId}/images/${imageId ?? "default"}`;
 }
 
 export function getDefaultImage(userId: UserId) {
-  return `${env.HOST_NAME}/api/users/${userId}/images/default`;
+  return `${env.HOSTNAME}/api/users/${userId}/images/default`;
 }
 
 export async function getProfileImageUrlUseCase({

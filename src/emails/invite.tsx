@@ -18,7 +18,7 @@ import { env } from "@/env";
 import { Project } from "@/db/schema";
 import { applicationName } from "@/app-config";
 
-export const BASE_URL = env.HOST_NAME;
+export const BASE_URL = env.HOSTNAME;
 
 export function InviteEmail({ project, token }: { project: Project; token: string }) {
   const previewText = `You're been invted to a project!`;
