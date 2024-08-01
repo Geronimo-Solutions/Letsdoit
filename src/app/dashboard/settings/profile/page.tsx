@@ -1,13 +1,14 @@
-import { ProfileImage } from "@/app/dashboard/settings/profile/profile-image";
-import { ProfileName } from "@/app/dashboard/settings/profile/profile-name";
-import { EditBioForm } from "./edit-bio-form";
-import { getCurrentUser } from "@/lib/session";
-import { Suspense, cache } from "react";
-import { getUserProfileUseCase } from "@/use-cases/users";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ConfigurationPanel } from "@/components/configuration-panel";
+import { ProfileImage } from "@/app/dashboard/settings/profile/profile-image"
+import { ProfileName } from "@/app/dashboard/settings/profile/profile-name"
+import { EditBioForm } from "./edit-bio-form"
+import { getCurrentUser } from "@/lib/session"
+import { Suspense, cache } from "react"
+import { getUserProfileUseCase } from "@/use-cases/users"
+import { Skeleton } from "@/components/ui/skeleton"
+import { ConfigurationPanel } from "@/components/configuration-panel"
 
-export const getUserProfileLoader = cache(getUserProfileUseCase);
+//@ts-ignore
+export const getUserProfileLoader = cache(getUserProfileUseCase)
 
 export default async function SettingsPage() {
   return (
@@ -23,17 +24,17 @@ export default async function SettingsPage() {
         </Suspense>
       </ConfigurationPanel>
     </div>
-  );
+  )
 }
 
 export async function BioFormWrapper() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error("User not found")
   }
 
-  const profile = await getUserProfileLoader(user.id);
+  const profile = await getUserProfileLoader(user.id)
 
-  return <EditBioForm bio={profile.bio} />;
+  return <EditBioForm bio={profile.bio} />
 }
