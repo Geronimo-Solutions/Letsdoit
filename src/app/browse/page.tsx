@@ -41,7 +41,7 @@ export default async function BrowsePage({
                   <div className="flex relative max-w-md w-full">
                     <Input
                       defaultValue={search}
-                      placeholder="tech, health, ai, enironment, etc."
+                      placeholder="tech, health, ai, environment, etc."
                       name="search"
                       id="project"
                     />
