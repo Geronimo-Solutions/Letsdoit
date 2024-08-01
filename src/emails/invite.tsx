@@ -35,7 +35,7 @@ export function InviteEmail({ project, token }: { project: Project; token: strin
                   src={`${BASE_URL}/project.jpeg`}
                   width="160"
                   height="48"
-                  alt="StarterKit"
+                  alt="Letsdoit"
                   className="my-0 mx-auto"
                 />
               </Section>

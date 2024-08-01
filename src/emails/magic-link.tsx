@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 
 import {
   Body,
@@ -12,15 +12,15 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from "@react-email/components"
 
-import { env } from "@/env";
-import { applicationName } from "@/app-config";
+import { env } from "@/env"
+import { applicationName } from "@/app-config"
 
-export const BASE_URL = env.BASEURL;
+export const BASE_URL = env.BASEURL
 
 export function MagicLinkEmail({ token }: { token: string }) {
-  const previewText = `You're been invted to a project!`;
+  const previewText = `You're been invted to a project!`
   return (
     <Html>
       <Head />
@@ -34,7 +34,7 @@ export function MagicLinkEmail({ token }: { token: string }) {
                   src={`${BASE_URL}/project.jpeg`}
                   width="160"
                   height="48"
-                  alt="StarterKit"
+                  alt="Letsdoit"
                   className="my-0 mx-auto"
                 />
               </Section>
@@ -65,5 +65,5 @@ export function MagicLinkEmail({ token }: { token: string }) {
         </React.Fragment>
       </Tailwind>
     </Html>
-  );
+  )
 }

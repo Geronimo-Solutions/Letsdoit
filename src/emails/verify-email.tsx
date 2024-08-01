@@ -33,7 +33,7 @@ export function VerifyEmail({ token }: { token: string }) {
                   src={`${BASE_URL}/project.jpeg`}
                   width="160"
                   height="48"
-                  alt="StarterKit"
+                  alt="Letsdoit"
                   className="my-0 mx-auto"
                 />
               </Section>
