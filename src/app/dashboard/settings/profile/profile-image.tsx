@@ -42,7 +42,7 @@ async function ProfileImageContent() {
         width={200}
         height={200}
         className="h-[200px] object-cover rounded-xl"
-        alt="image of the project"
+        alt="profile image"
       />
       <ProfileImageForm />
     </>
