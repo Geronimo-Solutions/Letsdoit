@@ -1,29 +1,25 @@
-import { SubmitButton } from "@/components/submit-button";
-import { Input } from "@/components/ui/input";
-import {
-  formProjectStyles,
-  pageTitleStyles,
-  pageWrapperStyles,
-} from "@/styles/common";
-import { searchPublicProjectsUseCase } from "@/use-cases/projects";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ProjectCard } from "@/app/dashboard/project-card";
-import { PageHeader } from "@/components/page-header";
-import Image from "next/image";
-import { ProjectPagination } from "./pagination";
-import { Button } from "@/components/ui/button";
-import { XIcon } from "lucide-react";
-import Link from "next/link";
+import { SubmitButton } from "@/components/submit-button"
+import { Input } from "@/components/ui/input"
+import { formProjectStyles, pageTitleStyles, pageWrapperStyles } from "@/styles/common"
+import { searchPublicProjectsUseCase } from "@/use-cases/projects"
+import { redirect } from "next/navigation"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { ProjectCard } from "@/app/dashboard/project-card"
+import { PageHeader } from "@/components/page-header"
+import Image from "next/image"
+import { ProjectPagination } from "./pagination"
+import { Button } from "@/components/ui/button"
+import { XIcon } from "lucide-react"
+import Link from "next/link"
 
 export default async function BrowsePage({
   searchParams,
 }: {
-  searchParams: { search?: string; page?: string };
+  searchParams: { search?: string; page?: string }
 }) {
-  const search = searchParams.search;
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const search = searchParams.search
+  const page = searchParams.page ? parseInt(searchParams.page) : 1
 
   return (
     <>
@@ -35,11 +31,9 @@ export default async function BrowsePage({
             <form
               key={search}
               action={async (formData: FormData) => {
-                "use server";
-                const searchString = formData.get("search") as string;
-                redirect(
-                  searchString ? `/browse?search=${searchString}` : "/browse"
-                );
+                "use server"
+                const searchString = formData.get("search") as string
+                redirect(searchString ? `/browse?search=${searchString}` : "/browse")
               }}
             >
               <div className={formProjectStyles}>
@@ -47,7 +41,7 @@ export default async function BrowsePage({
                   <div className="flex relative max-w-md w-full">
                     <Input
                       defaultValue={search}
-                      placeholder="basketball, programming, crafting, etc."
+                      placeholder="tech, health, ai, enironment, etc."
                       name="search"
                       id="project"
                     />
@@ -78,7 +72,7 @@ export default async function BrowsePage({
         </Suspense>
       </div>
     </>
-  );
+  )
 }
 
 function ProjectsListSkeleton() {
@@ -92,14 +86,11 @@ function ProjectsListSkeleton() {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
 async function ProjectsList({ search, page }: { search?: string; page: number }) {
-  const { data, perPage, total } = await searchPublicProjectsUseCase(
-    search ?? "",
-    page
-  );
+  const { data, perPage, total } = await searchPublicProjectsUseCase(search ?? "", page)
 
   if (data.length === 0) {
     return (
@@ -112,7 +103,7 @@ async function ProjectsList({ search, page }: { search?: string; page: number })
         ></Image>
         <h2 className="text-2xl">No projects matching your search</h2>
       </div>
-    );
+    )
   }
   return (
     <>
@@ -133,5 +124,5 @@ async function ProjectsList({ search, page }: { search?: string; page: number })
         totalPages={Math.ceil(total / perPage)}
       />
     </>
-  );
+  )
 }
