@@ -1,14 +1,14 @@
-import { ProjectCard } from "@/app/dashboard/project-card";
-import { getPublicProjectsByUserIdUseCase } from "@/use-cases/projects";
-import Image from "next/image";
+import { ProjectCard } from "@/app/dashboard/project-card"
+import { getPublicProjectsByUserIdUseCase } from "@/use-cases/projects"
+import Image from "next/image"
 
 export default async function ProjectsContent({
   params,
 }: {
-  params: { userId: string };
+  params: { userId: string }
 }) {
-  const { userId } = params;
-  const userProjects = await getPublicProjectsByUserIdUseCase(parseInt(userId));
+  const { userId } = params
+  const userProjects = await getPublicProjectsByUserIdUseCase(parseInt(userId))
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default async function ProjectsContent({
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {userProjects.map((project) => (
           <ProjectCard
             memberCount={project.memberCount.toString()}
@@ -35,5 +35,5 @@ export default async function ProjectsContent({
         ))}
       </div>
     </div>
-  );
+  )
 }
