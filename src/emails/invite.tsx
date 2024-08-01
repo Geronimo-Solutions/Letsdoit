@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 
 import {
   Body,
@@ -12,16 +12,16 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from "@react-email/components"
 
-import { env } from "@/env";
-import { Project } from "@/db/schema";
-import { applicationName } from "@/app-config";
+import { env } from "@/env"
+import { Project } from "@/db/schema"
+import { applicationName } from "@/app-config"
 
-export const BASE_URL = env.BASEURL;
+export const BASE_URL = env.BASEURL
 
 export function InviteEmail({ project, token }: { project: Project; token: string }) {
-  const previewText = `You're been invted to a project!`;
+  const previewText = `You're been invted to a project!`
   return (
     <Html>
       <Head />
@@ -42,9 +42,8 @@ export function InviteEmail({ project, token }: { project: Project; token: strin
 
               <Section className="text-center mt-[32px] mb-[32px]">
                 <Text className="text-black font-medium text-[14px] leading-[24px] mb-8">
-                  You&apos; been invited to a project on projectfinder.com called{" "}
-                  {project.name}. Click the link below to login and access your
-                  project.
+                  You&apos; been invited to a project on {BASE_URL} called {project.name}.
+                  Click the link below to login and access your project.
                 </Text>
 
                 <Text className="text-black font-medium text-[14px] leading-[24px]">
@@ -68,5 +67,5 @@ export function InviteEmail({ project, token }: { project: Project; token: strin
         </React.Fragment>
       </Tailwind>
     </Html>
-  );
+  )
 }
