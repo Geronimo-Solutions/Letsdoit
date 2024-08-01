@@ -1,9 +1,9 @@
-import { ConfigurationPanel } from "@/components/configuration-panel";
-import { ProfileNameForm } from "./profile-name-form";
-import { getCurrentUser } from "@/lib/session";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { getUserProfileLoader } from "./page";
+import { ConfigurationPanel } from "@/components/configuration-panel"
+import { ProfileNameForm } from "./profile-name-form"
+import { getCurrentUser } from "@/lib/session"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { getUserProfileLoader } from "../../projects/[projectId]/posts/[postId]/loaders"
 
 export async function ProfileName() {
   return (
@@ -12,17 +12,17 @@ export async function ProfileName() {
         <ProfileNameWrapper />
       </Suspense>
     </ConfigurationPanel>
-  );
+  )
 }
 
 async function ProfileNameWrapper() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    return null;
+    return null
   }
 
-  const profile = await getUserProfileLoader(user.id);
+  const profile = await getUserProfileLoader(user.id)
 
-  return <ProfileNameForm profileName={profile.displayName ?? ""} />;
+  return <ProfileNameForm profileName={profile.displayName ?? ""} />
 }
