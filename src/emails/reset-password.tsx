@@ -17,7 +17,7 @@ import {
 import { env } from "@/env";
 import { applicationName } from "@/app-config";
 
-export const BASE_URL = env.HOSTNAME;
+export const BASE_URL = env.BASEURL;
 
 export function ResetPasswordEmail({ token }: { token: string }) {
   return (

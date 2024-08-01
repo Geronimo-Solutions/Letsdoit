@@ -67,5 +67,5 @@ export const github = new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET)
 export const googleAuth = new Google(
   env.GOOGLE_CLIENT_ID,
   env.GOOGLE_CLIENT_SECRET,
-  `${env.HOSTNAME}/api/login/google/callback`
+  `${env.BASEURL}/api/login/google/callback`
 )

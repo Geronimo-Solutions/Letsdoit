@@ -19,7 +19,7 @@ export const GET = async (
 
     const url =
       params.imageId === "default"
-        ? `${env.HOSTNAME}/project.jpeg`
+        ? `${env.BASEURL}/project.jpeg`
         : await getProfileImageUrlUseCase({
             userId: parseInt(userId),
             imageId: params.imageId,
