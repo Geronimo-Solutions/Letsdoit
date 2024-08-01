@@ -1,27 +1,26 @@
-import { Button } from "@/components/ui/button";
-import { getCurrentUser } from "@/lib/session";
-import { headerStyles, pageTitleStyles } from "@/styles/common";
-import { btnIconStyles, btnStyles } from "@/styles/icons";
-import { getUserProfileUseCase } from "@/use-cases/users";
-import { UserId } from "lucia";
-import { SquareUser } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { FollowButton } from "./follow-button";
-import { isFollowingUserUseCase } from "@/use-cases/following";
-import { UnfollowButton } from "./unfollow-button";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button"
+import { getCurrentUser } from "@/lib/session"
+import { headerStyles, pageTitleStyles } from "@/styles/common"
+import { btnIconStyles, btnStyles } from "@/styles/icons"
+import { getUserProfileUseCase } from "@/use-cases/users"
+import { UserId } from "lucia"
+import { SquareUser } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { FollowButton } from "./follow-button"
+import { isFollowingUserUseCase } from "@/use-cases/following"
+import { UnfollowButton } from "./unfollow-button"
+import { cn } from "@/lib/utils"
+import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image"
 
 export async function ProfileHeader({ userId }: { userId: UserId }) {
-  const user = await getCurrentUser();
-  const profile = await getUserProfileUseCase(userId);
-  const isOwnProfile = user?.id === userId;
+  const user = await getCurrentUser()
+  const profile = await getUserProfileUseCase(userId)
+  const isOwnProfile = user?.id === userId
 
-  const isFollowingUser = user
-    ? await isFollowingUserUseCase(user, userId)
-    : false;
+  const isFollowingUser = user ? await isFollowingUserUseCase(user, userId) : false
 
-  const shouldShowFollowButtons = user && !isOwnProfile;
+  const shouldShowFollowButtons = user && !isOwnProfile
 
   return (
     <div className={cn(headerStyles, "py-8")}>
@@ -29,7 +28,7 @@ export async function ProfileHeader({ userId }: { userId: UserId }) {
         <div className="flex justify-between items-center">
           <div className="flex flex-col items-center md:flex-row gap-8">
             <Image
-              src={profile.image ?? "/project.jpeg"}
+              src={getProfileImageFullUrl(profile)}
               width={60}
               height={60}
               alt="image of the project"
@@ -56,5 +55,5 @@ export async function ProfileHeader({ userId }: { userId: UserId }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
