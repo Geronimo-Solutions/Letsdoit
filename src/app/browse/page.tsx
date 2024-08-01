@@ -77,7 +77,7 @@ export default async function BrowsePage({
 
 function ProjectsListSkeleton() {
   return (
-    <div className="grid grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {new Array(6).fill("").map((v, idx) => (
         <div key={idx} className="rounded border p-4 space-y-4 h-[300px]">
           <Skeleton className="w-[140px] h-[20px] rounded" />
@@ -107,7 +107,7 @@ async function ProjectsList({ search, page }: { search?: string; page: number })
   }
   return (
     <>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {data.map((project) => (
           <ProjectCard
             memberCount={project.memberCount.toString()}
