@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations } from "drizzle-orm"
 import {
   timestamp,
   text,
@@ -7,19 +7,19 @@ import {
   boolean,
   pgTable,
   integer,
-} from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+} from "drizzle-orm/pg-core"
+import { sql } from "drizzle-orm"
 
-export const roleEnum = pgEnum("role", ["member", "admin"]);
-export const accountTypeEnum = pgEnum("type", ["email", "google", "github"]);
+export const roleEnum = pgEnum("role", ["member", "admin"])
+export const accountTypeEnum = pgEnum("type", ["email", "google", "github"])
 
-export const users = pgTable("gf_user", {
+export const users = pgTable("ldi_user", {
   id: serial("id").primaryKey(),
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
-});
+})
 
-export const accounts = pgTable("gf_accounts", {
+export const accounts = pgTable("ldi_accounts", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -29,16 +29,16 @@ export const accounts = pgTable("gf_accounts", {
   googleId: text("googleId").unique(),
   password: text("password"),
   salt: text("salt"),
-});
+})
 
-export const magicLinks = pgTable("gf_magic_links", {
+export const magicLinks = pgTable("ldi_magic_links", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
   token: text("token"),
   tokenExpiresAt: timestamp("tokenExpiresAt", { mode: "date" }),
-});
+})
 
-export const resetTokens = pgTable("gf_reset_tokens", {
+export const resetTokens = pgTable("ldi_reset_tokens", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -46,9 +46,9 @@ export const resetTokens = pgTable("gf_reset_tokens", {
     .unique(),
   token: text("token"),
   tokenExpiresAt: timestamp("tokenExpiresAt", { mode: "date" }),
-});
+})
 
-export const verifyEmailTokens = pgTable("gf_verify_email_tokens", {
+export const verifyEmailTokens = pgTable("ldi_verify_email_tokens", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -56,9 +56,9 @@ export const verifyEmailTokens = pgTable("gf_verify_email_tokens", {
     .unique(),
   token: text("token"),
   tokenExpiresAt: timestamp("tokenExpiresAt", { mode: "date" }),
-});
+})
 
-export const profiles = pgTable("gf_profile", {
+export const profiles = pgTable("ldi_profile", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -68,9 +68,9 @@ export const profiles = pgTable("gf_profile", {
   imageId: text("imageId"),
   image: text("image"),
   bio: text("bio").notNull().default(""),
-});
+})
 
-export const sessions = pgTable("gf_session", {
+export const sessions = pgTable("ldi_session", {
   id: text("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -79,9 +79,9 @@ export const sessions = pgTable("gf_session", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
-});
+})
 
-export const subscriptions = pgTable("gf_subscriptions", {
+export const subscriptions = pgTable("ldi_subscriptions", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -91,9 +91,9 @@ export const subscriptions = pgTable("gf_subscriptions", {
   stripeCustomerId: text("stripeCustomerId").notNull(),
   stripePriceId: text("stripePriceId").notNull(),
   stripeCurrentPeriodEnd: timestamp("expires", { mode: "date" }).notNull(),
-});
+})
 
-export const following = pgTable("gf_following", {
+export const following = pgTable("ldi_following", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -101,7 +101,7 @@ export const following = pgTable("gf_following", {
   foreignUserId: serial("foreignUserId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-});
+})
 
 /**
  * newsletters - although the emails for the newsletter are tracked in Resend, it's beneficial to also track
@@ -109,12 +109,12 @@ export const following = pgTable("gf_following", {
  * The last thing you'd want is for your email list to get lost due to a
  * third party provider shutting down or dropping your data.
  */
-export const newsletters = pgTable("gf_newsletter", {
+export const newsletters = pgTable("ldi_newsletter", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
-});
+})
 
-export const projects = pgTable("gf_project", {
+export const projects = pgTable("ldi_project", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -128,9 +128,9 @@ export const projects = pgTable("gf_project", {
   discordLink: text("discordLink").default(""),
   githubLink: text("githubLink").default(""),
   xLink: text("xLink").default(""),
-});
+})
 
-export const memberships = pgTable("gf_membership", {
+export const memberships = pgTable("ldi_membership", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -139,9 +139,9 @@ export const memberships = pgTable("gf_membership", {
     .notNull()
     .references(() => projects.id, { onDelete: "cascade" }),
   role: roleEnum("role").default("member"),
-});
+})
 
-export const invites = pgTable("gf_invites", {
+export const invites = pgTable("ldi_invites", {
   id: serial("id").primaryKey(),
   token: text("token")
     .notNull()
@@ -150,9 +150,9 @@ export const invites = pgTable("gf_invites", {
   projectId: serial("projectId")
     .notNull()
     .references(() => projects.id, { onDelete: "cascade" }),
-});
+})
 
-export const events = pgTable("gf_events", {
+export const events = pgTable("ldi_events", {
   id: serial("id").primaryKey(),
   projectId: serial("projectId")
     .notNull()
@@ -161,9 +161,9 @@ export const events = pgTable("gf_events", {
   description: text("description").notNull(),
   imageId: text("imageId"),
   startsOn: timestamp("startsOn", { mode: "date" }).notNull(),
-});
+})
 
-export const notifications = pgTable("gf_notifications", {
+export const notifications = pgTable("ldi_notifications", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -176,9 +176,9 @@ export const notifications = pgTable("gf_notifications", {
   type: text("type").notNull(),
   message: text("message").notNull(),
   createdOn: timestamp("createdOn", { mode: "date" }).notNull(),
-});
+})
 
-export const posts = pgTable("gf_posts", {
+export const posts = pgTable("ldi_posts", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -189,9 +189,9 @@ export const posts = pgTable("gf_posts", {
   title: text("title").notNull(),
   message: text("message").notNull(),
   createdOn: timestamp("createdOn", { mode: "date" }).notNull(),
-});
+})
 
-export const reply = pgTable("gf_replies", {
+export const reply = pgTable("ldi_replies", {
   id: serial("id").primaryKey(),
   userId: serial("userId")
     .notNull()
@@ -204,7 +204,7 @@ export const reply = pgTable("gf_replies", {
     .references(() => projects.id, { onDelete: "cascade" }),
   message: text("message").notNull(),
   createdOn: timestamp("createdOn", { mode: "date" }).notNull(),
-});
+})
 
 /**
  * RELATIONSHIPS
@@ -215,7 +215,7 @@ export const reply = pgTable("gf_replies", {
 
 export const projectRelations = relations(projects, ({ many }) => ({
   memberships: many(memberships),
-}));
+}))
 
 export const membershipRelations = relations(memberships, ({ one }) => ({
   user: one(users, { fields: [memberships.userId], references: [users.id] }),
@@ -227,12 +227,12 @@ export const membershipRelations = relations(memberships, ({ one }) => ({
     fields: [memberships.projectId],
     references: [projects.id],
   }),
-}));
+}))
 
 export const postsRelationships = relations(posts, ({ one }) => ({
   user: one(users, { fields: [posts.userId], references: [users.id] }),
   project: one(projects, { fields: [posts.projectId], references: [projects.id] }),
-}));
+}))
 
 export const followingRelationship = relations(following, ({ one }) => ({
   foreignProfile: one(profiles, {
@@ -243,7 +243,7 @@ export const followingRelationship = relations(following, ({ one }) => ({
     fields: [following.userId],
     references: [profiles.id],
   }),
-}));
+}))
 
 /**
  * TYPES
@@ -252,25 +252,25 @@ export const followingRelationship = relations(following, ({ one }) => ({
  * This is useful when you need to know the shape of the data you are working with
  * in a component or function.
  */
-export type Subscription = typeof subscriptions.$inferSelect;
-export type Project = typeof projects.$inferSelect;
-export type NewProject = typeof projects.$inferInsert;
-export type Membership = typeof memberships.$inferSelect;
+export type Subscription = typeof subscriptions.$inferSelect
+export type Project = typeof projects.$inferSelect
+export type NewProject = typeof projects.$inferInsert
+export type Membership = typeof memberships.$inferSelect
 
-export type Event = typeof events.$inferSelect;
-export type NewEvent = typeof events.$inferInsert;
+export type Event = typeof events.$inferSelect
+export type NewEvent = typeof events.$inferInsert
 
-export type User = typeof users.$inferSelect;
-export type Profile = typeof profiles.$inferSelect;
+export type User = typeof users.$inferSelect
+export type Profile = typeof profiles.$inferSelect
 
-export type Notification = typeof notifications.$inferSelect;
+export type Notification = typeof notifications.$inferSelect
 
-export type Post = typeof posts.$inferSelect;
-export type NewPost = typeof posts.$inferInsert;
+export type Post = typeof posts.$inferSelect
+export type NewPost = typeof posts.$inferInsert
 
-export type Reply = typeof reply.$inferSelect;
-export type NewReply = typeof reply.$inferInsert;
+export type Reply = typeof reply.$inferSelect
+export type NewReply = typeof reply.$inferInsert
 
-export type Following = typeof following.$inferSelect;
+export type Following = typeof following.$inferSelect
 
-export type ProjectId = Project["id"];
+export type ProjectId = Project["id"]
