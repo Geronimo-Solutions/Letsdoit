@@ -1,5 +1,13 @@
 {
   "version": "6",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1722495615747,
+      "tag": "0000_daily_taskmaster",
+      "breakpoints": true
+    }
+  ]
 }
