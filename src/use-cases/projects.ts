@@ -39,18 +39,22 @@ export async function createProjectUseCase(
 ) {
   const numberOfProjects = await countUserProjects(authenticatedUser.id)
 
-  const subscription = await getSubscription(authenticatedUser.id)
-  if (!isSubscriptionActive(subscription)) {
-    throw new AuthenticationError()
-  }
+  if (numberOfProjects >= MAX_PROJECT_LIMIT) {
+    const subscription = await getSubscription(authenticatedUser.id)
+    if (!isSubscriptionActive(subscription)) {
+      // TODO once Stripe is inegrated this can be changed..
+      throw new Error("You have reached the maximum number of projects")
+      // You can upgrage to a higher plan and get more free projects.)
+    }
 
-  const plan = getSubscriptionPlan(subscription)
+    const plan = getSubscriptionPlan(subscription)
 
-  if (
-    numberOfProjects >=
-    (plan === "premium" ? MAX_PROJECT_PREMIUM_LIMIT : MAX_PROJECT_LIMIT)
-  ) {
-    throw new Error("You have reached the maximum number of projects")
+    if (
+      numberOfProjects >=
+      (plan === "premium" ? MAX_PROJECT_PREMIUM_LIMIT : MAX_PROJECT_LIMIT)
+    ) {
+      throw new Error("You have reached the maximum number of projects")
+    }
   }
 
   await createProject({ ...newProject, userId: authenticatedUser.id })
