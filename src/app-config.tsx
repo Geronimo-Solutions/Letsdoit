@@ -16,6 +16,6 @@ export const TOKEN_TTL = 1000 * 60 * 5 // 5 min
 export const VERIFY_EMAIL_TTL = 1000 * 60 * 60 * 24 * 7 // 7 days
 
 export const MAX_PROJECT_LIMIT = 5
-export const MAX_GROUP_PREMIUM_LIMIT = 50
+export const MAX_PROJECT_PREMIUM_LIMIT = 25
 
 export const afterLoginUrl = "/dashboard"

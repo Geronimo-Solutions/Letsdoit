@@ -1,4 +1,4 @@
-import { MAX_PROJECT_LIMIT } from "@/app-config"
+import { MAX_PROJECT_LIMIT, MAX_PROJECT_PREMIUM_LIMIT } from "@/app-config"
 import { AuthenticationError } from "@/app/util"
 import {
   countUserProjects,
@@ -26,6 +26,9 @@ import { MemberInfo, UserId, UserSession } from "@/use-cases/types"
 import { omit } from "lodash"
 import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image"
 import { getProfileImageUrl } from "./users"
+import { getSubscription } from "@/data-access/subscriptions"
+import { isSubscriptionActive } from "@/util/subscriptions"
+import { getSubscriptionPlan } from "./subscriptions"
 
 export async function createProjectUseCase(
   authenticatedUser: UserSession,
@@ -36,8 +39,17 @@ export async function createProjectUseCase(
 ) {
   const numberOfProjects = await countUserProjects(authenticatedUser.id)
 
-  // TODO: limits should change based on subscription plan
-  if (numberOfProjects >= MAX_PROJECT_LIMIT) {
+  const subscription = await getSubscription(authenticatedUser.id)
+  if (!isSubscriptionActive(subscription)) {
+    throw new AuthenticationError()
+  }
+
+  const plan = getSubscriptionPlan(subscription)
+
+  if (
+    numberOfProjects >=
+    (plan === "premium" ? MAX_PROJECT_PREMIUM_LIMIT : MAX_PROJECT_LIMIT)
+  ) {
     throw new Error("You have reached the maximum number of projects")
   }
 

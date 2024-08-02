@@ -18,7 +18,7 @@ export default async function ProjectsContent({
             src="/empty-state/mountain.svg"
             width="200"
             height="200"
-            alt="no gruops placeholder image"
+            alt="no projects placeholder image"
           ></Image>
           <h2 className="text-2xl">This user isn't part of any projects</h2>
         </div>
