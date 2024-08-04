@@ -25,6 +25,8 @@ export async function searchPublicProjectsByName(
 ) {
   const PROJECTS_PER_PAGE = 9
 
+  const orderBy = order === "DESC" ? sql`${projects.id} DESC` : sql`${projects.id} ASC`
+
   const condition = search
     ? and(eq(projects.isPublic, true), ilike(projects.name, `%${search}%`))
     : eq(projects.isPublic, true)
@@ -36,7 +38,7 @@ export async function searchPublicProjectsByName(
     },
     limit: PROJECTS_PER_PAGE,
     offset: (page - 1) * PROJECTS_PER_PAGE,
-    orderBy: sql`${projects.id} ${order}`,
+    orderBy,
   })
 
   const [countResult] = await database
