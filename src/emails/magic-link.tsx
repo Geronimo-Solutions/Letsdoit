@@ -32,8 +32,8 @@ export function MagicLinkEmail({ token }: { token: string }) {
               <Section className="mt-[32px]">
                 <Img
                   src={`${BASE_URL}/project.jpeg`}
-                  width="160"
-                  height="48"
+                  width="auto"
+                  height="80"
                   alt="Letsdoit"
                   className="my-0 mx-auto"
                 />
@@ -41,7 +41,7 @@ export function MagicLinkEmail({ token }: { token: string }) {
 
               <Section className="text-center mt-[32px] mb-[32px]">
                 <Text className="text-black font-medium text-[14px] leading-[24px] mb-8">
-                  You&apos;re magic link login is below, click to login. project.
+                  You&apos;re magic link login is below, click to login. Lets do it.
                 </Text>
 
                 <Text className="text-black font-medium text-[14px] leading-[24px]">
@@ -58,7 +58,7 @@ export function MagicLinkEmail({ token }: { token: string }) {
               <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
 
               <Text className="text-[#666666] text-[12px] leading-[24px] flex items-center justify-center">
-                © 2024 {applicationName}. All rights reserved.
+                © {new Date().getFullYear()} {applicationName}. All rights reserved.
               </Text>
             </Container>
           </Body>
