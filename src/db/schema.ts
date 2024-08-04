@@ -274,3 +274,4 @@ export type NewReply = typeof reply.$inferInsert
 export type Following = typeof following.$inferSelect
 
 export type ProjectId = Project["id"]
+export type ProjectBannerId = Project["bannerId"]

@@ -1,19 +1,19 @@
-"use server";
+"use server"
 
-import { authenticatedAction } from "@/lib/safe-action";
+import { authenticatedAction } from "@/lib/safe-action"
 import {
   getProjectImageUploadUrlUseCase,
   updateProjectImageUseCase,
-} from "@/use-cases/files";
+} from "@/use-cases/files"
 import {
   toggleProjectVisibilityUseCase,
   updateProjectDescriptionUseCase,
   updateProjectNameUseCase,
   updateProjectSocialLinksUseCase,
-} from "@/use-cases/projects";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
-import { socialUrlSchema } from "./schema";
+} from "@/use-cases/projects"
+import { revalidatePath } from "next/cache"
+import { z } from "zod"
+import { socialUrlSchema } from "./schema"
 
 export const updateProjectDescriptionAction = authenticatedAction
   .createServerAction()
@@ -24,13 +24,13 @@ export const updateProjectDescriptionAction = authenticatedAction
     })
   )
   .handler(async ({ input, ctx }) => {
-    const projectId = input.projectId;
+    const projectId = input.projectId
     await updateProjectDescriptionUseCase(ctx.user, {
       projectId,
       description: input.description,
-    });
-    revalidatePath(`/dashboard/projects/${projectId}/settings`);
-  });
+    })
+    revalidatePath(`/dashboard/projects/${projectId}/settings`)
+  })
 
 export const updateProjectSocialLinksAction = authenticatedAction
   .createServerAction()
@@ -41,10 +41,10 @@ export const updateProjectSocialLinksAction = authenticatedAction
     })
   )
   .handler(async ({ input, ctx }) => {
-    const projectId = input.projectId;
-    await updateProjectSocialLinksUseCase(ctx.user, input);
-    revalidatePath(`/dashboard/projects/${projectId}/settings`);
-  });
+    const projectId = input.projectId
+    await updateProjectSocialLinksUseCase(ctx.user, input)
+    revalidatePath(`/dashboard/projects/${projectId}/settings`)
+  })
 
 export const updateProjectNameAction = authenticatedAction
   .createServerAction()
@@ -55,21 +55,21 @@ export const updateProjectNameAction = authenticatedAction
     })
   )
   .handler(async ({ input, ctx }) => {
-    const projectId = input.projectId;
+    const projectId = input.projectId
     await updateProjectNameUseCase(ctx.user, {
       projectId,
       newName: input.name,
-    });
-    revalidatePath(`/dashboard/projects/${projectId}/settings`);
-  });
+    })
+    revalidatePath(`/dashboard/projects/${projectId}/settings`)
+  })
 
 export const toggleProjectVisibilityAction = authenticatedAction
   .createServerAction()
   .input(z.number())
   .handler(async ({ input: projectId, ctx: { user } }) => {
-    await toggleProjectVisibilityUseCase(user, projectId);
-    revalidatePath(`/dashboard/projects/${projectId}/settings`);
-  });
+    await toggleProjectVisibilityUseCase(user, projectId)
+    revalidatePath(`/dashboard/projects/${projectId}/settings`)
+  })
 
 export const getPresignedPostUrlAction = authenticatedAction
   .createServerAction()
@@ -80,19 +80,24 @@ export const getPresignedPostUrlAction = authenticatedAction
     })
   )
   .handler(async ({ input: { projectId, contentType }, ctx: { user } }) => {
-    return await getProjectImageUploadUrlUseCase(user, { projectId, contentType });
-  });
+    return await getProjectImageUploadUrlUseCase(user, { projectId, contentType })
+  })
 
 export const uploadImageAction = authenticatedAction
   .createServerAction()
   .input(
     z.object({
       projectId: z.number(),
+      currBannerId: z.string().nullable(),
       fileWrapper: z.instanceof(FormData),
     })
   )
   .handler(async ({ input, ctx: { user } }) => {
-    const file = input.fileWrapper.get("file") as File;
-    await updateProjectImageUseCase(user, { projectId: input.projectId, file });
-    revalidatePath(`/dashboard/projects/${input.projectId}/settings`);
-  });
+    const file = input.fileWrapper.get("file") as File
+    await updateProjectImageUseCase(user, {
+      projectId: input.projectId,
+      currBannerId: input.currBannerId,
+      file,
+    })
+    revalidatePath(`/dashboard/projects/${input.projectId}/settings`)
+  })

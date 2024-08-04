@@ -1,29 +1,25 @@
-import { BannerUploadForm } from "@/app/dashboard/projects/[projectId]/settings/banner-upload-form";
-import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util";
-import { ProjectVisibilitySwitch } from "@/app/dashboard/projects/[projectId]/settings/visibility-switch";
-import { assertAuthenticated } from "@/lib/session";
-import { pageTitleStyles } from "@/styles/common";
-import { getProjectByIdUseCase } from "@/use-cases/projects";
-import Image from "next/image";
-import { ProjectNameForm } from "./project-name-form";
-import { ConfigurationPanel } from "@/components/configuration-panel";
-import { ProjectDescriptionForm } from "./project-description-form";
-import { SocialLinksForm } from "./social-links-form";
+import { BannerUploadForm } from "@/app/dashboard/projects/[projectId]/settings/banner-upload-form"
+import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util"
+import { ProjectVisibilitySwitch } from "@/app/dashboard/projects/[projectId]/settings/visibility-switch"
+import { assertAuthenticated } from "@/lib/session"
+import { pageTitleStyles } from "@/styles/common"
+import { getProjectByIdUseCase } from "@/use-cases/projects"
+import Image from "next/image"
+import { ProjectNameForm } from "./project-name-form"
+import { ConfigurationPanel } from "@/components/configuration-panel"
+import { ProjectDescriptionForm } from "./project-description-form"
+import { SocialLinksForm } from "./social-links-form"
 
-export default async function Settings({
-  params,
-}: {
-  params: { projectId: string };
-}) {
-  const user = await assertAuthenticated();
-  const project = await getProjectByIdUseCase(user, parseInt(params.projectId));
+export default async function Settings({ params }: { params: { projectId: string } }) {
+  const user = await assertAuthenticated()
+  const project = await getProjectByIdUseCase(user, parseInt(params.projectId))
 
   if (!project) {
-    return <div>Project not found</div>;
+    return <div>Project not found</div>
   }
 
   function upperCaseThatName(name: string) {
-    return name.toUpperCase();
+    return name.toUpperCase()
   }
 
   return (
@@ -34,6 +30,7 @@ export default async function Settings({
         <ConfigurationPanel title={"Project Image"}>
           <div className="flex flex-col gap-8">
             <Image
+              key={project.bannerId}
               src={getProjectImageUrl(project)}
               width={200}
               height={200}
@@ -45,7 +42,7 @@ export default async function Settings({
                 "Upload a project image to make your project stand out."
               )}
             </p>
-            <BannerUploadForm projectId={project.id} />
+            <BannerUploadForm projectId={project.id} currBannerId={project.bannerId} />
           </div>
         </ConfigurationPanel>
 
@@ -56,9 +53,8 @@ export default async function Settings({
         <ConfigurationPanel title={"Project Visibility"}>
           <div className="flex flex-col gap-8">
             <p className="dark:text-gray-400">
-              Projects are private by default. If you want random people on the
-              internet to find and join your project without an invite, switch
-              this to on.
+              Projects are private by default. If you want random people on the internet
+              to find and join your project without an invite, switch this to on.
             </p>
             <ProjectVisibilitySwitch project={project} />
           </div>
@@ -78,5 +74,5 @@ export default async function Settings({
         </ConfigurationPanel>
       </div>
     </div>
-  );
+  )
 }
