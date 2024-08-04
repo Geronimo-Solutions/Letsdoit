@@ -18,7 +18,11 @@ export async function createProject(project: NewProject) {
   await database.insert(projects).values(project)
 }
 
-export async function searchPublicProjectsByName(search: string, page: number) {
+export async function searchPublicProjectsByName(
+  search: string,
+  page: number,
+  order: "DESC" | "ASC" = "DESC"
+) {
   const PROJECTS_PER_PAGE = 9
 
   const condition = search
@@ -32,6 +36,7 @@ export async function searchPublicProjectsByName(search: string, page: number) {
     },
     limit: PROJECTS_PER_PAGE,
     offset: (page - 1) * PROJECTS_PER_PAGE,
+    orderBy: sql`${projects.id} ${order}`,
   })
 
   const [countResult] = await database
