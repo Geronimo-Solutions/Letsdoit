@@ -1,5 +1,5 @@
-import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util";
-import { Button } from "@/components/ui/button";
+import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -7,22 +7,24 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Project } from "@/db/schema";
-import { cn } from "@/lib/utils";
-import { cardStyles } from "@/styles/common";
-import { UsersIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+} from "@/components/ui/card"
+import { Project } from "@/db/schema"
+import { cn } from "@/lib/utils"
+import { cardStyles } from "@/styles/common"
+import { UsersIcon } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 
 export function ProjectCard({
   project,
   buttonText,
   memberCount,
+  isAuthenticated,
 }: {
-  project: Pick<Project, "id" | "bannerId" | "name" | "description" | "id">;
-  buttonText: string;
-  memberCount: string;
+  project: Pick<Project, "id" | "bannerId" | "name" | "description" | "id">
+  buttonText: string
+  memberCount: string
+  isAuthenticated: boolean
 }) {
   return (
     <Card className={cn(cardStyles)}>
@@ -46,9 +48,13 @@ export function ProjectCard({
       </CardContent>
       <CardFooter>
         <Button className="w-full mt-auto" variant="secondary" asChild>
-          <Link href={`/dashboard/projects/${project.id}/info`}>{buttonText}</Link>
+          <Link
+            href={isAuthenticated ? `/dashboard/projects/${project.id}/info` : "/sign-in"}
+          >
+            {buttonText}
+          </Link>
         </Button>
       </CardFooter>
     </Card>
-  );
+  )
 }

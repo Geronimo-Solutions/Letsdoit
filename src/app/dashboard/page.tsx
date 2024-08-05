@@ -86,6 +86,7 @@ export default async function DashboardPage() {
               project={project}
               key={project.id}
               buttonText={"Manage Project"}
+              isAuthenticated={!!user}
             />
           ))}
         </div>
@@ -107,6 +108,7 @@ export default async function DashboardPage() {
               project={project}
               key={project.id}
               buttonText={"View Project"}
+              isAuthenticated={!!user}
             />
           ))}
         </div>

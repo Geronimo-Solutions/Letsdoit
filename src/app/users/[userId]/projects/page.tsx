@@ -31,6 +31,7 @@ export default async function ProjectsContent({
             project={project}
             key={project.id}
             buttonText={"View Project"}
+            isAuthenticated={true}
           />
         ))}
       </div>

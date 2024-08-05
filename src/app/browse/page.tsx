@@ -12,6 +12,8 @@ import { ProjectPagination } from "./pagination"
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 import Link from "next/link"
+import { assertAuthenticated } from "@/lib/session"
+import { UserSession } from "@/use-cases/types"
 
 export default async function BrowsePage({
   searchParams,
@@ -20,6 +22,7 @@ export default async function BrowsePage({
 }) {
   const search = searchParams.search
   const page = searchParams.page ? parseInt(searchParams.page) : 1
+  const user = await assertAuthenticated()
 
   return (
     <>
@@ -68,7 +71,7 @@ export default async function BrowsePage({
 
       <div className={pageWrapperStyles}>
         <Suspense fallback={<ProjectsListSkeleton />}>
-          <ProjectsList page={page} search={search} />
+          <ProjectsList user={user} page={page} search={search} />
         </Suspense>
       </div>
     </>
@@ -89,7 +92,15 @@ function ProjectsListSkeleton() {
   )
 }
 
-async function ProjectsList({ search, page }: { search?: string; page: number }) {
+async function ProjectsList({
+  search,
+  page,
+  user,
+}: {
+  search?: string
+  page: number
+  user: UserSession
+}) {
   const { data, perPage, total } = await searchPublicProjectsUseCase(search ?? "", page)
 
   if (data.length === 0) {
@@ -115,6 +126,7 @@ async function ProjectsList({ search, page }: { search?: string; page: number })
             key={project.id}
             project={project}
             buttonText="View"
+            isAuthenticated={!!user.id}
           />
         ))}
       </div>
