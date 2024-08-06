@@ -1,7 +1,7 @@
 import { BannerUploadForm } from "@/app/dashboard/projects/[projectId]/settings/banner-upload-form"
 import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util"
 import { ProjectVisibilitySwitch } from "@/app/dashboard/projects/[projectId]/settings/visibility-switch"
-import { assertAuthenticated } from "@/lib/session"
+import { assertAuthenticated } from "@/lib/safe-action"
 import { pageTitleStyles } from "@/styles/common"
 import { getProjectByIdUseCase } from "@/use-cases/projects"
 import Image from "next/image"

@@ -1,4 +1,4 @@
-import { assertAuthenticated } from "@/lib/session";
+import { assertAuthenticated } from "@/lib/safe-action";
 import { pageTitleStyles } from "@/styles/common";
 import { getProjectByIdUseCase } from "@/use-cases/projects";
 import { ConfigurationPanel } from "@/components/configuration-panel";

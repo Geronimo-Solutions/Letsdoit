@@ -1,6 +1,6 @@
 import { ProjectCard } from "@/app/dashboard/project-card"
 import { Button } from "@/components/ui/button"
-import { assertAuthenticated } from "@/lib/session"
+import { assertAuthenticated } from "@/lib/safe-action"
 import { cn } from "@/lib/utils"
 import { cardStyles, pageTitleStyles } from "@/styles/common"
 import { btnIconStyles, btnStyles } from "@/styles/icons"

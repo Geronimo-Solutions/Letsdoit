@@ -12,7 +12,7 @@ import { ProjectPagination } from "./pagination"
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 import Link from "next/link"
-import { assertAuthenticated } from "@/lib/session"
+import { assertAuthenticated } from "@/lib/safe-action"
 import { UserSession } from "@/use-cases/types"
 
 export default async function BrowsePage({
