@@ -20,16 +20,14 @@ export function IntroductionSection() {
           </p>
         </div>
       </section>
-      <section className="flex-1">
-        <div className="">
-          <Image
-            className="rounded-xl w-[400px] h-[400px]"
-            width="200"
-            height="200"
-            src="/project.jpeg"
-            alt="hero image"
-          />
-        </div>
+      <section className="flex-1 pt-12 md:pt-0 mx-auto">
+        <Image
+          className="rounded-xl md:size-[400px]"
+          width="200"
+          height="200"
+          src="/project.jpeg"
+          alt="hero image"
+        />
       </section>
     </div>
   )
