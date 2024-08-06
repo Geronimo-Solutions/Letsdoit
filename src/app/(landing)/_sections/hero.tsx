@@ -28,7 +28,7 @@ export function HeroSection() {
             <DashedArrow className="hidden sm:inline absolute -bottom-[4rem] -left-[4rem] w-20 h-auto fill-current" />
             <SignedIn>
               <Button asChild>
-                <Link href={"/dashboard"}>View Dashboard</Link>
+                <Link href={"/browse"}>Browse Projects</Link>
               </Button>
             </SignedIn>
             <SignedIn>
