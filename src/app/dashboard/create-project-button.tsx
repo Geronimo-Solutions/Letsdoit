@@ -10,10 +10,12 @@ import Link from "next/link"
 
 export function CreateProjectButton({
   isAuthenticated = true,
+  isBrowsePage = false,
   className,
   title,
 }: {
   isAuthenticated?: boolean
+  isBrowsePage?: boolean
   className?: string
   title?: string
 }) {
@@ -26,7 +28,7 @@ export function CreateProjectButton({
         description={"Create a new project to start managing your events."}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        form={<CreateProjectForm />}
+        form={<CreateProjectForm isBrowsePage={isBrowsePage} />}
       />
 
       <Button

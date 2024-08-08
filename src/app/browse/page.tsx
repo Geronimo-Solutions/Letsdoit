@@ -69,7 +69,11 @@ export default async function BrowsePage({
                   </div>
                 </div>
               </form>
-              <CreateProjectButton isAuthenticated={!!user} title={"Add Project"} />
+              <CreateProjectButton
+                isBrowsePage
+                isAuthenticated={!!user}
+                title={"Add Project"}
+              />
             </div>
           </div>
         </div>
