@@ -17,12 +17,9 @@ export function HeroSection() {
             Create and Discover New Projects
           </h1>
           <p className="mt-5 leading-relaxed text-gray-400 text-lg max-w-[600px]">
-            Made for people with amazing ideas. Directory of sharable projects with tools
-            to
-            <span className="font-bold"> build and engage with communities.</span> Start
-            your journey today.
-            {/*
-             */}
+            Showcase your project ideas and connect with a{" "}
+            <span className="font-bold"> community of innovators</span>. Discover, engage,
+            and grow together—start today!
           </p>
           <div className="relative space-y-4 sm:flex items-center justify-center sm:space-y-0 space-x-4 mt-10">
             <DashedArrow className="hidden sm:inline absolute -bottom-[4rem] -left-[4rem] w-20 h-auto fill-current" />
