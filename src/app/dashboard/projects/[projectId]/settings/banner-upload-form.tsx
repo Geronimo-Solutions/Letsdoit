@@ -70,7 +70,7 @@ export function BannerUploadForm({
                 <Input
                   {...fieldProps}
                   type="file"
-                  accept="image/*"
+                  accept=".jpg, .jpeg, .png, .webp, .gif, .avif, .ico, .bmp, .tiff"
                   onChange={(event) => {
                     const file = event.target.files && event.target.files[0]
                     onChange(file)

@@ -112,8 +112,6 @@ export async function getProjectMembersUseCase(
   const owner = (await getProfile(project.userId))!
   const members = await getProjectMembers(projectId)
 
-  console.log({ members })
-
   return [
     {
       name: owner.displayName,

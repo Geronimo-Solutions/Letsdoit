@@ -1,18 +1,17 @@
-import { ProfileTabs } from "@/app/users/[userId]/profile-tabs";
-import { cn } from "@/lib/utils";
-import { pageWrapperStyles } from "@/styles/common";
-import { ReactNode } from "react";
-import { ProfileHeader } from "./profile-header";
+import { ProfileTabs } from "@/app/users/[userId]/profile-tabs"
+import { cn } from "@/lib/utils"
+import { pageWrapperStyles } from "@/styles/common"
+import { ReactNode } from "react"
+import { ProfileHeader } from "./profile-header"
 
 export default async function ProfileLayout({
   params,
   children,
 }: {
-  params: { userId: string };
-  children: ReactNode;
+  params: { userId: string }
+  children: ReactNode
 }) {
-  const { userId } = params;
-  console.log(params.userId);
+  const { userId } = params
 
   return (
     <>
@@ -24,5 +23,5 @@ export default async function ProfileLayout({
         <div className="flex-1 gap-4 flex flex-col">{children}</div>
       </div>
     </>
-  );
+  )
 }
