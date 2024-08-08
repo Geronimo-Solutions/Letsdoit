@@ -10,10 +10,12 @@ import { PageHeader } from "@/components/page-header"
 import Image from "next/image"
 import { ProjectPagination } from "./pagination"
 import { Button } from "@/components/ui/button"
-import { XIcon } from "lucide-react"
+import { PlusCircle, XIcon } from "lucide-react"
 import Link from "next/link"
 import { UserSession } from "@/use-cases/types"
 import { getCurrentUser } from "@/lib/session"
+import { btnIconStyles, btnStyles } from "@/styles/icons"
+import { CreateProjectButton } from "../dashboard/create-project-button"
 
 export default async function BrowsePage({
   searchParams,
@@ -31,40 +33,44 @@ export default async function BrowsePage({
           <div className="flex flex-col gap-8 flex-grow">
             <h1 className={pageTitleStyles}>Browse Projects</h1>
 
-            <form
-              key={search}
-              action={async (formData: FormData) => {
-                "use server"
-                const searchString = formData.get("search") as string
-                redirect(searchString ? `/browse?search=${searchString}` : "/browse")
-              }}
-            >
-              <div className={formProjectStyles}>
-                <div className="flex gap-2 items-center">
-                  <div className="flex relative max-w-md w-full">
-                    <Input
-                      defaultValue={search}
-                      placeholder="tech, health, ai, environment, etc."
-                      name="search"
-                      id="project"
-                    />
-                    {search && (
-                      <Button
-                        size="icon"
-                        variant="link"
-                        className="absolute right-1"
-                        asChild
-                      >
-                        <Link href={`/browse`}>
-                          <XIcon />
-                        </Link>
-                      </Button>
-                    )}
+            <div className="flex items-center justify-between">
+              <form
+                key={search}
+                action={async (formData: FormData) => {
+                  "use server"
+                  const searchString = formData.get("search") as string
+                  redirect(searchString ? `/browse?search=${searchString}` : "/browse")
+                }}
+                className="flex"
+              >
+                <div className={formProjectStyles}>
+                  <div className="flex gap-2 items-center">
+                    <div className="flex relative max-w-md w-full">
+                      <Input
+                        defaultValue={search}
+                        placeholder="tech, health, ai, environment, etc."
+                        name="search"
+                        id="project"
+                      />
+                      {search && (
+                        <Button
+                          size="icon"
+                          variant="link"
+                          className="absolute right-1"
+                          asChild
+                        >
+                          <Link href={`/browse`}>
+                            <XIcon />
+                          </Link>
+                        </Button>
+                      )}
+                    </div>
+                    <SubmitButton>Search</SubmitButton>
                   </div>
-                  <SubmitButton>Search</SubmitButton>
                 </div>
-              </div>
-            </form>
+              </form>
+              <CreateProjectButton isAuthenticated={!!user} title={"Add Project"} />
+            </div>
           </div>
         </div>
       </PageHeader>
