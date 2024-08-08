@@ -34,7 +34,10 @@ export function CreateProjectButton({
           setIsOpen(true)
         }}
         className={btnStyles + className}
-      ></Button>
+      >
+        <PlusCircle className={btnIconStyles} />
+        {title || "Create Project"}
+      </Button>
     </>
   ) : (
     <Link href="/sign-in">
