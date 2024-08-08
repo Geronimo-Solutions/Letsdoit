@@ -2,7 +2,10 @@ import Image from "next/image"
 
 export function IntroductionSection() {
   return (
-    <div className="flex flex-col items-start align-center md:flex-row gap-x-24 w-full p-16 bg-gray-200 dark:bg-background">
+    <div
+      id="about"
+      className="flex flex-col items-start align-center md:flex-row gap-x-24 w-full p-16 bg-gray-200 dark:bg-background"
+    >
       <section className="w-full md:max-w-[500px] md:ml-auto">
         <div className="">
           <p className="text-4xl mb-12 max-w-4xl mx-auto text-left">

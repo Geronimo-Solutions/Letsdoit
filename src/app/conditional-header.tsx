@@ -1,36 +1,35 @@
-"use client";
+"use client"
 
-import { BookIcon, RocketIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { BookIcon, RocketIcon } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-import { LogOut, Settings2Icon } from "lucide-react";
+import { LogOut, Settings2Icon } from "lucide-react"
 
-import Image from "next/image";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Session } from "next-auth";
-import Link from "next/link";
-import { applicationName } from "@/app-config";
-import { Button } from "@/components/ui/button";
+import Image from "next/image"
+import { ModeToggle } from "@/components/mode-toggle"
+import { Session } from "next-auth"
+import Link from "next/link"
+import { applicationName } from "@/app-config"
+import { Button } from "@/components/ui/button"
 
 export function ConditionalHeader({
   session,
 }: {
-  isPremium: boolean;
-  session: Session | null;
+  isPremium: boolean
+  session: Session | null
 }) {
-  const path = usePathname();
-  const isDashboard =
-    path.startsWith("/dashboard") || path.startsWith("/purchases");
-  const isSignedIn = !!session;
+  const path = usePathname()
+  const isDashboard = path.startsWith("/dashboard") || path.startsWith("/purchases")
+  const isSignedIn = !!session
 
   return (
     <div className="border-b py-4">
@@ -74,7 +73,7 @@ export function ConditionalHeader({
           {!isDashboard && (
             <div>
               <Button variant={"link"} asChild>
-                <Link href="/#features">Features</Link>
+                <Link href="/#about">About</Link>
               </Button>
 
               <Button variant={"link"} asChild>
@@ -96,10 +95,7 @@ export function ConditionalHeader({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>
-                    <Link
-                      href="/dashboard/settings"
-                      className="flex gap-2 items-center"
-                    >
+                    <Link href="/dashboard/settings" className="flex gap-2 items-center">
                       <Settings2Icon className="w-4 h-4" /> Settings
                     </Link>
                   </DropdownMenuItem>
@@ -126,5 +122,5 @@ export function ConditionalHeader({
         </div>
       </div>
     </div>
-  );
+  )
 }
