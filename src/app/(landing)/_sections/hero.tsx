@@ -16,10 +16,10 @@ export function HeroSection() {
           <h1 className="text-5xl md:text-7xl mt-10 leading-[1.2] font-semibold">
             Create and Discover New Projects
           </h1>
-          <p className="mt-5 leading-relaxed text-gray-400 text-lg max-w-[600px]">
+          <p className="mt-5 leading-relaxed text-gray-400 text-lg">
             Showcase your project ideas and connect with a{" "}
-            <span className="font-bold"> community of innovators</span>. Discover, engage,
-            and grow together—start today!
+            <span className="font-bold"> community of innovators</span>.<br /> Discover,
+            engage, and grow together—start today!
           </p>
           <div className="relative space-y-4 sm:flex items-center justify-center sm:space-y-0 space-x-4 mt-10">
             <DashedArrow className="hidden sm:inline absolute -bottom-[4rem] -left-[4rem] w-20 h-auto fill-current" />
