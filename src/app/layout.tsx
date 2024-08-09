@@ -74,7 +74,7 @@ export default async function RootLayout({
             <PostHogPageView />
           </Suspense>
           <NextTopLoader />
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full h-screen">
             {appConfig.mode === "live" && <Header />}
             <div>{children}</div>
             {appConfig.mode === "comingSoon" ? <ComingSoonFooter /> : <Footer />}
