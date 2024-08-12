@@ -89,7 +89,7 @@ export function CreateProjectForm({ isBrowsePage = false }: { isBrowsePage: bool
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Short Description</FormLabel>
               <FormControl>
                 <Textarea rows={7} {...field} />
               </FormControl>
