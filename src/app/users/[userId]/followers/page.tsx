@@ -1,15 +1,16 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Link from "next/link";
-import { Profile } from "@/db/schema";
-import { getFollowersForUserUseCase } from "@/use-cases/following";
-import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from "next/link"
+import { Profile } from "@/db/schema"
+import { getFollowersForUserUseCase } from "@/use-cases/following"
+import Image from "next/image"
+import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image"
 
 function FollowerCard({ profile }: { profile: Profile }) {
   return (
     <div key={profile.userId} className="flex items-center gap-4">
       <div className="dark:bg-slate-900 flex gap-4 items-center hover:underline border rounded-lg p-4">
         <Avatar>
-          <AvatarImage src={profile.image || "/project.jpeg"} />
+          <AvatarImage src={getProfileImageFullUrl(profile)} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Link href={`/users/${profile.userId}/info`}>
