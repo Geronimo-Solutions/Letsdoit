@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { sendInviteAction } from "@/app/dashboard/projects/[projectId]/actions";
-import { LoaderButton } from "@/components/loader-button";
+import { sendInviteAction } from "@/app/dashboard/projects/[projectId]/actions"
+import { LoaderButton } from "@/components/loader-button"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,8 +11,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -20,33 +20,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { btnIconStyles, btnStyles } from "@/styles/icons";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MailIcon } from "lucide-react";
-import { useParams } from "next/navigation";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
+import { btnIconStyles, btnStyles } from "@/styles/icons"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { MailIcon } from "lucide-react"
+import { useParams } from "next/navigation"
+import { useState, useTransition } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 export const schema = z.object({
   email: z.string().min(1),
-});
+})
 
 export function InviteButton() {
-  const { toast } = useToast();
-  const { projectId } = useParams<{ projectId: string }>();
-  const [isOpen, setIsOpen] = useState(false);
-  const [pending, startTransition] = useTransition();
+  const { toast } = useToast()
+  const { projectId } = useParams<{ projectId: string }>()
+  const [isOpen, setIsOpen] = useState(false)
+  const [pending, startTransition] = useTransition()
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       email: "",
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof schema>) {
     startTransition(() => {
@@ -54,14 +54,14 @@ export function InviteButton() {
         email: values.email,
         projectId: parseInt(projectId),
       }).then(() => {
-        setIsOpen(false);
-        form.reset();
+        setIsOpen(false)
+        form.reset()
         toast({
           title: "Invite Sent",
           description: "Tell your friend to check their email.",
-        });
-      });
-    });
+        })
+      })
+    })
   }
 
   return (
@@ -88,7 +88,7 @@ export function InviteButton() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="webdevcody@gmail.com" {...field} />
+                    <Input placeholder="johny@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -103,5 +103,5 @@ export function InviteButton() {
         </Form>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
