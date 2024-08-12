@@ -1,38 +1,42 @@
-import { getCurrentUser } from "@/lib/session";
-import { cardStyles, linkStyles, pageTitleStyles } from "@/styles/common";
-import { canEditPostUseCase, getPostByIdUseCase } from "@/use-cases/posts";
-import { DeletePostButton } from "../delete-post-button";
-import { EditPostForm } from "./edit-post-form";
+import { getCurrentUser } from "@/lib/session"
+import { cardStyles, linkStyles, pageTitleStyles } from "@/styles/common"
+import { canEditPostUseCase, getPostByIdUseCase } from "@/use-cases/posts"
+import { DeletePostButton } from "../delete-post-button"
+import { EditPostForm } from "./edit-post-form"
 import {
   getRepliesForPostUseCase,
   hasAccessToMutateReplyUseCase,
-} from "@/use-cases/replies";
-import { Suspense } from "react";
-import { PostReplyForm } from "./post-reply-form";
-import { ProjectId, Reply } from "@/db/schema";
-import { getUserProfileUseCase } from "@/use-cases/users";
-import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Skeleton } from "@/components/ui/skeleton";
-import { formatDate } from "@/util/date";
-import { DeleteReplyButton } from "./delete-reply-button";
-import { EditReplyButton } from "./edit-reply-button";
-import { isUserMemberOfProjectUseCase } from "@/use-cases/membership";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+} from "@/use-cases/replies"
+import { Suspense } from "react"
+import { PostReplyForm } from "./post-reply-form"
+import { ProjectId, Reply } from "@/db/schema"
+import { getUserProfileUseCase } from "@/use-cases/users"
+import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Skeleton } from "@/components/ui/skeleton"
+import { formatDate } from "@/util/date"
+import { DeleteReplyButton } from "./delete-reply-button"
+import { EditReplyButton } from "./edit-reply-button"
+import {
+  isProjectOwnerUseCase,
+  isUserMemberOfProjectUseCase,
+} from "@/use-cases/membership"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ChevronLeft } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export default async function PostPage({
   params,
 }: {
-  params: { postId: string; projectId: string };
+  params: { postId: string; projectId: string }
 }) {
-  const { postId, projectId } = params;
+  const { postId, projectId } = params
 
-  const user = await getCurrentUser();
-  const post = await getPostByIdUseCase(user, parseInt(postId));
-  const isPostAdmin = await canEditPostUseCase(user, parseInt(postId));
+  const user = await getCurrentUser()
+  const post = await getPostByIdUseCase(user, parseInt(postId))
+  const isPostAdmin = await canEditPostUseCase(user, parseInt(postId))
+  const isProjectAdmin = await isProjectOwnerUseCase(user, Number(projectId))
 
   return (
     <div className="flex flex-col gap-8">
@@ -43,7 +47,7 @@ export default async function PostPage({
           </Link>
         </Button>
 
-        {isPostAdmin && <DeletePostButton postId={post.id} />}
+        {isPostAdmin || (isProjectAdmin && <DeletePostButton postId={post.id} />)}
       </div>
 
       {!isPostAdmin && <h2 className={pageTitleStyles}>{post.title}</h2>}
@@ -58,11 +62,11 @@ export default async function PostPage({
         <RepliesList projectId={parseInt(projectId)} postId={post.id} />
       </Suspense>
     </div>
-  );
+  )
 }
 
 async function ReplyAvatar({ userId }: { userId: number }) {
-  const profile = await getUserProfileUseCase(userId);
+  const profile = await getUserProfileUseCase(userId)
 
   return (
     <Link
@@ -79,7 +83,7 @@ async function ReplyAvatar({ userId }: { userId: number }) {
 
       <p>{profile.displayName}</p>
     </Link>
-  );
+  )
 }
 
 function ReplyAvatarFallback() {
@@ -88,20 +92,20 @@ function ReplyAvatarFallback() {
       <Skeleton className="rounded-full w-8 h-8" />
       <Skeleton className="w-20 h-6" />
     </div>
-  );
+  )
 }
 
 async function RepliesList({
   postId,
   projectId,
 }: {
-  postId: number;
-  projectId: ProjectId;
+  postId: number
+  projectId: ProjectId
 }) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
-  const replies = await getRepliesForPostUseCase(user, postId);
-  const isMember = await isUserMemberOfProjectUseCase(user, projectId);
+  const replies = await getRepliesForPostUseCase(user, postId)
+  const isMember = await isUserMemberOfProjectUseCase(user, projectId)
 
   return (
     <div className="flex flex-col gap-4">
@@ -111,12 +115,12 @@ async function RepliesList({
 
       {isMember && <PostReplyForm projectId={projectId} postId={postId} />}
     </div>
-  );
+  )
 }
 
 async function ReplyCard({ reply }: { reply: Reply }) {
-  const user = await getCurrentUser();
-  const hasMutateAccess = await hasAccessToMutateReplyUseCase(user, reply.id);
+  const user = await getCurrentUser()
+  const hasMutateAccess = await hasAccessToMutateReplyUseCase(user, reply.id)
 
   return (
     <div key={reply.id} className={cn(cardStyles, "p-4 space-y-3")}>
@@ -138,5 +142,5 @@ async function ReplyCard({ reply }: { reply: Reply }) {
 
       <p>{reply.message}</p>
     </div>
-  );
+  )
 }

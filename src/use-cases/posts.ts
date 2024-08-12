@@ -1,7 +1,7 @@
-import { ProjectId } from "@/db/schema";
-import { UserSession } from "./types";
-import { getProjectById } from "@/data-access/projects";
-import { isProjectOwnerUseCase, isProjectVisibleToUserUseCase } from "./membership";
+import { ProjectId } from "@/db/schema"
+import { UserSession } from "./types"
+import { getProjectById } from "@/data-access/projects"
+import { isProjectOwnerUseCase, isProjectVisibleToUserUseCase } from "./membership"
 import {
   createPost,
   deletePost,
@@ -9,44 +9,44 @@ import {
   getRecentPublicPostsByUserId,
   getPostsInProject,
   updatePost,
-} from "@/data-access/posts";
-import { isAdminOrOwnerOfProject } from "./authorization";
-import { AuthenticationError } from "@/app/util";
+} from "@/data-access/posts"
+import { isAdminOrOwnerOfProject } from "./authorization"
+import { AuthenticationError } from "@/app/util"
 
 // TODO: clean up this function
 export async function getPostsInProjectUseCase(
   authenticatedUser: UserSession | undefined,
   projectId: ProjectId
 ) {
-  const project = await getProjectById(projectId);
+  const project = await getProjectById(projectId)
 
   if (!project) {
-    throw new Error("Project not found");
+    throw new Error("Project not found")
   }
 
   if (!isProjectVisibleToUserUseCase(authenticatedUser, projectId)) {
-    throw new AuthenticationError();
+    throw new AuthenticationError()
   }
 
-  const posts = await getPostsInProject(projectId);
-  return posts;
+  const posts = await getPostsInProject(projectId)
+  return posts
 }
 
 export async function getPostByIdUseCase(
   authenticatedUser: UserSession | undefined,
   postId: number
 ) {
-  const post = await getPostById(postId);
+  const post = await getPostById(postId)
 
   if (!post) {
-    throw new Error("Post not found");
+    throw new Error("Post not found")
   }
 
   if (!isProjectVisibleToUserUseCase(authenticatedUser, post.projectId)) {
-    throw new AuthenticationError();
+    throw new AuthenticationError()
   }
 
-  return post;
+  return post
 }
 
 export async function createPostUseCase(
@@ -56,19 +56,19 @@ export async function createPostUseCase(
     title,
     message,
   }: {
-    projectId: ProjectId;
-    title: string;
-    message: string;
+    projectId: ProjectId
+    title: string
+    message: string
   }
 ) {
-  const project = await getProjectById(projectId);
+  const project = await getProjectById(projectId)
 
   if (!project) {
-    throw new Error("Project not found");
+    throw new Error("Project not found")
   }
 
   if (!isProjectVisibleToUserUseCase(authenticatedUser, projectId)) {
-    throw new AuthenticationError();
+    throw new AuthenticationError()
   }
 
   await createPost({
@@ -77,7 +77,7 @@ export async function createPostUseCase(
     title,
     message,
     createdOn: new Date(),
-  });
+  })
 }
 
 export async function deletePostUseCase(
@@ -85,30 +85,30 @@ export async function deletePostUseCase(
   {
     postId,
   }: {
-    postId: number;
+    postId: number
   }
 ) {
-  const post = await getPostById(postId);
+  const post = await getPostById(postId)
 
   if (!post) {
-    throw new Error("Post not found");
+    throw new Error("Post not found")
   }
 
-  const project = await getProjectById(post.projectId);
+  const project = await getProjectById(post.projectId)
 
   if (!project) {
-    throw new Error("Project not found");
+    throw new Error("Project not found")
   }
 
-  const isPostOwner = post.userId === authenticatedUser.id;
+  const isPostOwner = post.userId === authenticatedUser.id
 
   if (!isProjectOwnerUseCase(authenticatedUser, project.id) && !isPostOwner) {
-    throw new AuthenticationError();
+    throw new AuthenticationError()
   }
 
-  await deletePost(postId);
+  await deletePost(postId)
 
-  return post;
+  return post
 }
 
 export async function updatePostUseCase(
@@ -118,56 +118,56 @@ export async function updatePostUseCase(
     message,
     title,
   }: {
-    postId: number;
-    message: string;
-    title: string;
+    postId: number
+    message: string
+    title: string
   }
 ) {
-  const post = await getPostById(postId);
+  const post = await getPostById(postId)
 
   if (!post) {
-    throw new Error("Post not found");
+    throw new Error("Post not found")
   }
 
-  const project = await getProjectById(post.projectId);
+  const project = await getProjectById(post.projectId)
 
   if (!project) {
-    throw new Error("Project not found");
+    throw new Error("Project not found")
   }
 
-  const isPostOwner = post.userId === authenticatedUser.id;
+  const isPostOwner = post.userId === authenticatedUser.id
 
   if (!isProjectOwnerUseCase(authenticatedUser, project.id) && !isPostOwner) {
-    throw new AuthenticationError();
+    throw new AuthenticationError()
   }
 
   const updatedPost = await updatePost(postId, {
     message,
     title,
-  });
+  })
 
-  return updatedPost;
+  return updatedPost
 }
 
 export async function canEditPostUseCase(
   authenticatedUser: UserSession | undefined,
   postId: number
 ) {
-  if (!authenticatedUser) return false;
+  if (!authenticatedUser) return false
 
-  const post = await getPostById(postId);
+  const post = await getPostById(postId)
 
   if (!post) {
-    return false;
+    return false
   }
 
   return (
-    (await isAdminOrOwnerOfProject(authenticatedUser, post.projectId)) ||
+    // (await isAdminOrOwnerOfProject(authenticatedUser, post.projectId)) ||
     post.userId === authenticatedUser.id
-  );
+  )
 }
 
 export async function getPublicPostsByUserUseCase(userId: number) {
-  const posts = await getRecentPublicPostsByUserId(userId);
-  return posts;
+  const posts = await getRecentPublicPostsByUserId(userId)
+  return posts
 }
