@@ -22,7 +22,7 @@ export default async function PostsPage({ params }: { params: { projectId: strin
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center">
         <h2 className={pageTitleStyles}>Posts</h2>
-        {canPost && <CreatePostButton />}
+        {canPost && <CreatePostButton isAuthenticated={!!user} />}
       </div>
 
       <Suspense fallback={<PostsListLoader />}>

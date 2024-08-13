@@ -42,7 +42,7 @@ export async function ProfileHeader({ userId }: { userId: UserId }) {
             (isFollowingUser ? (
               <UnfollowButton foreignUserId={userId} />
             ) : (
-              <FollowButton foreignUserId={userId} />
+              <FollowButton isAthenticated={!!user} foreignUserId={userId} />
             ))}
 
           {isOwnProfile && (
