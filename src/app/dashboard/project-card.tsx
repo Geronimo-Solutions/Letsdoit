@@ -19,12 +19,10 @@ export function ProjectCard({
   project,
   buttonText,
   memberCount,
-  isAuthenticated,
 }: {
   project: Pick<Project, "id" | "bannerId" | "name" | "description" | "id">
   buttonText: string
   memberCount: string
-  isAuthenticated: boolean
 }) {
   return (
     <Card className={cn(cardStyles)}>
@@ -48,11 +46,7 @@ export function ProjectCard({
       </CardContent>
       <CardFooter>
         <Button className="w-full mt-auto" variant="secondary" asChild>
-          <Link
-            href={isAuthenticated ? `/dashboard/projects/${project.id}/info` : "/sign-in"}
-          >
-            {buttonText}
-          </Link>
+          <Link href={`/dashboard/projects/${project.id}/info`}>{buttonText}</Link>
         </Button>
       </CardFooter>
     </Card>

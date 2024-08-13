@@ -1,26 +1,22 @@
-import { getCurrentUser } from "@/lib/session";
-import { cardStyles, pageTitleStyles } from "@/styles/common";
-import { getPostsInProjectUseCase } from "@/use-cases/posts";
-import Image from "next/image";
-import { CreatePostButton } from "./create-post-button";
-import { PostCard } from "./post-card";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { getCurrentUser } from "@/lib/session"
+import { cardStyles, pageTitleStyles } from "@/styles/common"
+import { getPostsInProjectUseCase } from "@/use-cases/posts"
+import Image from "next/image"
+import { CreatePostButton } from "./create-post-button"
+import { PostCard } from "./post-card"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   isProjectVisibleToUserUseCase,
   isUserMemberOfProjectUseCase,
-} from "@/use-cases/membership";
-import { cn } from "@/lib/utils";
+} from "@/use-cases/membership"
+import { cn } from "@/lib/utils"
 
-export default async function PostsPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
-  const { projectId } = params;
+export default async function PostsPage({ params }: { params: { projectId: string } }) {
+  const { projectId } = params
 
-  const user = await getCurrentUser();
-  const canPost = await isUserMemberOfProjectUseCase(user, parseInt(projectId));
+  const user = await getCurrentUser()
+  const canPost = await isUserMemberOfProjectUseCase(user, parseInt(projectId))
 
   return (
     <div className="flex flex-col gap-8">
@@ -33,19 +29,20 @@ export default async function PostsPage({
         <PostsList projectId={projectId} />
       </Suspense>
     </div>
-  );
+  )
 }
 
 function PostsListLoader() {
   return new Array(4).fill("").map(() => {
-    return <Skeleton className="h-40 w-full" />;
-  });
+    return <Skeleton className="h-40 w-full" />
+  })
 }
 
 async function PostsList({ projectId }: { projectId: string }) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
+  const isAuthenticated = !!user
 
-  const posts = await getPostsInProjectUseCase(user, parseInt(projectId));
+  const posts = await getPostsInProjectUseCase(user, parseInt(projectId))
 
   return (
     <>
@@ -63,7 +60,7 @@ async function PostsList({ projectId }: { projectId: string }) {
             alt="no image placeholder image"
           ></Image>
           <h2>No posts created yet</h2>
-          <CreatePostButton />
+          <CreatePostButton isAuthenticated={isAuthenticated} />
         </div>
       )}
 
@@ -71,5 +68,5 @@ async function PostsList({ projectId }: { projectId: string }) {
         <PostCard key={post.id} post={post} />
       ))}
     </>
-  );
+  )
 }

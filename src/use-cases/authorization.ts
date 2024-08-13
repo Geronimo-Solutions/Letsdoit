@@ -116,24 +116,26 @@ export async function assertProjectVisible(
   user: UserSession | undefined,
   projectId: ProjectId
 ) {
-  if (!user) {
-    throw new AuthenticationError()
-  }
+  // if (!user) {
+  //   throw new AuthenticationError()
+  // }
 
   const project = await assertProjectExists(projectId)
 
   if (project.isPublic) {
     return { project, user }
-  }
-
-  const membership = await getMembership(user.id, projectId)
-
-  const isProjectOwner = project.userId === user.id
-  if (!membership && !isProjectOwner) {
+  } else {
     throw new AuthenticationError()
   }
 
-  return { project, user }
+  // const membership = await getMembership(user.id, projectId)
+
+  // const isProjectOwner = project.userId === user.id
+  // if (!membership && !isProjectOwner) {
+  //   throw new AuthenticationError()
+  // }
+
+  // return { project, user }
 }
 
 export async function assertProjectExists(projectId: ProjectId) {

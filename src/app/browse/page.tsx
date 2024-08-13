@@ -81,7 +81,7 @@ export default async function BrowsePage({
 
       <div className={pageWrapperStyles}>
         <Suspense fallback={<ProjectsListSkeleton />}>
-          <ProjectsList user={user} page={page} search={search} />
+          <ProjectsList page={page} search={search} />
         </Suspense>
       </div>
     </>
@@ -102,15 +102,7 @@ function ProjectsListSkeleton() {
   )
 }
 
-async function ProjectsList({
-  search,
-  page,
-  user,
-}: {
-  search?: string
-  page: number
-  user: UserSession | undefined
-}) {
+async function ProjectsList({ search, page }: { search?: string; page: number }) {
   const { data, perPage, total } = await searchPublicProjectsUseCase(search ?? "", page)
 
   if (data.length === 0) {
@@ -136,7 +128,6 @@ async function ProjectsList({
             key={project.id}
             project={project}
             buttonText="View"
-            isAuthenticated={!!user?.id}
           />
         ))}
       </div>

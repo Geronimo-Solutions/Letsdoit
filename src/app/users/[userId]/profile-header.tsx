@@ -20,7 +20,7 @@ export async function ProfileHeader({ userId }: { userId: UserId }) {
 
   const isFollowingUser = user ? await isFollowingUserUseCase(user, userId) : false
 
-  const shouldShowFollowButtons = user && !isOwnProfile
+  const shouldShowFollowButtons = !isOwnProfile
 
   return (
     <div className={cn(headerStyles, "py-8")}>

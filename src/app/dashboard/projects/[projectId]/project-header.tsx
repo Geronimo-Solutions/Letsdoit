@@ -1,51 +1,57 @@
-import { JoinProjectButton } from "@/app/dashboard/projects/[projectId]/join-project-button";
-import { LeaveProjectButton } from "@/app/dashboard/projects/[projectId]/leave-project-button";
-import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util";
-import { Badge } from "@/components/ui/badge";
-import { Project } from "@/db/schema";
-import { getCurrentUser } from "@/lib/session";
-import { cn } from "@/lib/utils";
-import { headerStyles, pageTitleStyles } from "@/styles/common";
-import { btnIconStyles } from "@/styles/icons";
-import { getUpcomingEventsUseCase } from "@/use-cases/events";
-import { getMemberCountUseCase } from "@/use-cases/projects";
+import { JoinProjectButton } from "@/app/dashboard/projects/[projectId]/join-project-button"
+import { LeaveProjectButton } from "@/app/dashboard/projects/[projectId]/leave-project-button"
+import { getProjectImageUrl } from "@/app/dashboard/projects/[projectId]/settings/util"
+import { Badge } from "@/components/ui/badge"
+import { Project } from "@/db/schema"
+import { getCurrentUser } from "@/lib/session"
+import { cn } from "@/lib/utils"
+import { headerStyles, pageTitleStyles } from "@/styles/common"
+import { btnIconStyles } from "@/styles/icons"
+import { getUpcomingEventsUseCase } from "@/use-cases/events"
+import { getMemberCountUseCase } from "@/use-cases/projects"
 import {
   isProjectOwnerUseCase,
   isUserMemberOfProjectUseCase,
-} from "@/use-cases/membership";
-import { CalendarIcon, LoaderIcon, LockIcon, UsersIcon } from "lucide-react";
-import Image from "next/image";
-import { Suspense } from "react";
+} from "@/use-cases/membership"
+import { CalendarIcon, LoaderIcon, LockIcon, UsersIcon } from "lucide-react"
+import Image from "next/image"
+import { Suspense } from "react"
 
 async function MembershipButtons({ project }: { project: Pick<Project, "id"> }) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
-  if (!user) {
-    return null;
-  }
+  // if (!user) {
+  //   return null
+  // }
 
   const [isProjectOwner, isInProject] = await Promise.all([
     isProjectOwnerUseCase(user, project.id),
     isUserMemberOfProjectUseCase(user, project.id),
-  ]);
+  ])
 
   return (
     <div className="flex gap-2">
       {!isProjectOwner && (
-        <>{isInProject ? <LeaveProjectButton /> : <JoinProjectButton />}</>
+        <>
+          {isInProject ? (
+            <LeaveProjectButton />
+          ) : (
+            <JoinProjectButton isAuthenticated={!!user} />
+          )}
+        </>
       )}
     </div>
-  );
+  )
 }
 
 export async function ProjectHeader({
   project,
 }: {
-  project: Pick<Project, "name" | "id" | "isPublic" | "bannerId">;
+  project: Pick<Project, "name" | "id" | "isPublic" | "bannerId">
 }) {
-  const user = await getCurrentUser();
-  const numberOfMembers = await getMemberCountUseCase(user, project.id);
-  const upcomingEvents = await getUpcomingEventsUseCase(user, project.id);
+  const user = await getCurrentUser()
+  const numberOfMembers = await getMemberCountUseCase(user, project.id)
+  const upcomingEvents = await getUpcomingEventsUseCase(user, project.id)
 
   return (
     <div className={cn(headerStyles, "py-8")}>
@@ -66,9 +72,7 @@ export async function ProjectHeader({
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm font-medium">
-                    {numberOfMembers} members
-                  </span>
+                  <span className="text-sm font-medium">{numberOfMembers} members</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CalendarIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
@@ -97,5 +101,5 @@ export async function ProjectHeader({
         </div>
       </div>
     </div>
-  );
+  )
 }
