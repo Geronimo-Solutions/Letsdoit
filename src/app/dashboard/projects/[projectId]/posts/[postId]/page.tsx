@@ -54,9 +54,11 @@ export default async function PostPage({
 
       {isPostAdmin ? <EditPostForm post={post} /> : <p>{post.message}</p>}
 
-      <h2 className="text-2xl" id="replies">
-        Replies
-      </h2>
+      {user && (
+        <h2 className="text-2xl" id="replies">
+          Replies
+        </h2>
+      )}
 
       <Suspense>
         <RepliesList projectId={parseInt(projectId)} postId={post.id} />
