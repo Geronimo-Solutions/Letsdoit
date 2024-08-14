@@ -121,7 +121,7 @@ export const projects = pgTable("ldi_project", {
     .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  isPublic: boolean("isPublic").notNull().default(false),
+  isPublic: boolean("isPublic").notNull().default(true),
   bannerId: text("bannerId"),
   info: text("info").default(""),
   youtubeLink: text("youtubeLink").default(""),
