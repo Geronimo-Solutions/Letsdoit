@@ -47,7 +47,7 @@ export default async function PostPage({
           </Link>
         </Button>
 
-        {isPostAdmin || (isProjectAdmin && <DeletePostButton postId={post.id} />)}
+        {(isPostAdmin || isProjectAdmin) && <DeletePostButton postId={post.id} />}
       </div>
 
       {!isPostAdmin && <h2 className={pageTitleStyles}>{post.title}</h2>}
