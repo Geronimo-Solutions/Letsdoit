@@ -57,8 +57,8 @@ function Separator() {
         <path
           d="M 0,400 L 0,0 C 150.40000000000003,63.60000000000001 300.80000000000007,127.20000000000002 475,155 C 649.1999999999999,182.79999999999998 847.2,174.8 1012,143 C 1176.8,111.2 1308.4,55.6 1440,0 L 1440,400 L 0,400 Z"
           stroke="none"
-          stroke-width="0"
-          fill-opacity="1"
+          strokeWidth="0"
+          fillOpacity="1"
           className="fill-gray-200 dark:fill-[#020817] transition-all duration-300 ease-in-out delay-150 path-0"
         ></path>
       </svg>

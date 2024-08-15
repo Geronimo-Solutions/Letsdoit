@@ -1,18 +1,18 @@
-import Link from "next/link";
-import { formatDate } from "@/util/date";
-import { MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Post } from "@/db/schema";
-import { canEditPostUseCase } from "@/use-cases/posts";
-import { getCurrentUser } from "@/lib/session";
-import { getReplyCountUseCase } from "@/use-cases/replies";
-import { getUserProfileUseCase } from "@/use-cases/users";
-import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cardStyles, linkStyles } from "@/styles/common";
-import { cn } from "@/lib/utils";
+import Link from "next/link"
+import { formatDate } from "@/util/date"
+import { MessageCircle } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Post } from "@/db/schema"
+import { canEditPostUseCase } from "@/use-cases/posts"
+import { getCurrentUser } from "@/lib/session"
+import { getReplyCountUseCase } from "@/use-cases/replies"
+import { getUserProfileUseCase } from "@/use-cases/users"
+import { getProfileImageFullUrl } from "@/app/dashboard/settings/profile/profile-image"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { cardStyles, linkStyles } from "@/styles/common"
+import { cn } from "@/lib/utils"
 
 function PostAvatarFallback() {
   return (
@@ -20,11 +20,11 @@ function PostAvatarFallback() {
       <Skeleton className="rounded-full w-8 h-8" />
       <Skeleton className="w-20 h-6" />
     </div>
-  );
+  )
 }
 
 async function PostAvatar({ userId }: { userId: number }) {
-  const profile = await getUserProfileUseCase(userId);
+  const profile = await getUserProfileUseCase(userId)
 
   return (
     <Link
@@ -41,14 +41,14 @@ async function PostAvatar({ userId }: { userId: number }) {
 
       <p>{profile.displayName}</p>
     </Link>
-  );
+  )
 }
 
 export async function PostCard({ post }: { post: Post }) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
-  const canDeletePost = await canEditPostUseCase(user, post.id);
-  const replyCount = await getReplyCountUseCase(user, post.id);
+  const canDeletePost = await canEditPostUseCase(user, post.id)
+  const replyCount = await getReplyCountUseCase(user, post.id)
 
   return (
     <div className={cn(cardStyles, "border p-4 flex flex-col gap-4")}>
@@ -63,7 +63,7 @@ export async function PostCard({ post }: { post: Post }) {
         </h3>
       </div>
 
-      <p>{post.message}</p>
+      <p className="whitespace-pre-line line-clamp-4">{post.message}</p>
 
       <div className="flex justify-between">
         <div className="text-gray-400 flex gap-4 w-full items-center">
@@ -94,5 +94,5 @@ export async function PostCard({ post }: { post: Post }) {
         )}
       </div>
     </div>
-  );
+  )
 }

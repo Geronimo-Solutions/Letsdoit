@@ -1,14 +1,14 @@
-"use server";
+"use server"
 
-import { authenticatedAction } from "@/lib/safe-action";
-import { updatePostUseCase } from "@/use-cases/posts";
+import { authenticatedAction } from "@/lib/safe-action"
+import { updatePostUseCase } from "@/use-cases/posts"
 import {
   createReplyUseCase,
   deleteReplyUseCase,
   updateReplyUseCase,
-} from "@/use-cases/replies";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
+} from "@/use-cases/replies"
+import { revalidatePath } from "next/cache"
+import { z } from "zod"
 
 export const updatePostAction = authenticatedAction
   .createServerAction()
@@ -24,10 +24,10 @@ export const updatePostAction = authenticatedAction
       postId: input.postId,
       message: input.message,
       title: input.title,
-    });
+    })
 
-    revalidatePath(`/dashboard/projects/${post.projectId}/posts/${post.id}`);
-  });
+    revalidatePath(`/dashboard/projects/${post.projectId}/posts/${post.id}`)
+  })
 
 export const updateReplyAction = authenticatedAction
   .createServerAction()
@@ -41,12 +41,12 @@ export const updateReplyAction = authenticatedAction
     const updatedReply = await updateReplyUseCase(ctx.user, {
       replyId: input.replyId,
       message: input.message,
-    });
+    })
 
     revalidatePath(
       `/dashboard/projects/${updatedReply.projectId}/posts/${updatedReply.postId}`
-    );
-  });
+    )
+  })
 
 export const createReplyAction = authenticatedAction
   .createServerAction()
@@ -61,10 +61,10 @@ export const createReplyAction = authenticatedAction
     const reply = await createReplyUseCase(ctx.user, {
       postId: input.postId,
       message: input.message,
-    });
+    })
 
-    revalidatePath(`/dashboard/projects/${input.projectId}/posts/${reply.postId}`);
-  });
+    revalidatePath(`/dashboard/projects/${input.projectId}/posts/${reply.postId}`)
+  })
 
 export const deleteReplyAction = authenticatedAction
   .createServerAction()
@@ -78,7 +78,7 @@ export const deleteReplyAction = authenticatedAction
   .handler(async ({ input, ctx }) => {
     await deleteReplyUseCase(ctx.user, {
       replyId: input.replyId,
-    });
+    })
 
-    revalidatePath(`/dashboard/projects/${input.projectId}/posts/${input.postId}`);
-  });
+    revalidatePath(`/dashboard/projects/${input.projectId}/posts/${input.postId}`)
+  })

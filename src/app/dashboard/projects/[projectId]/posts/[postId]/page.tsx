@@ -52,7 +52,11 @@ export default async function PostPage({
 
       {!isPostAdmin && <h2 className={pageTitleStyles}>{post.title}</h2>}
 
-      {isPostAdmin ? <EditPostForm post={post} /> : <p>{post.message}</p>}
+      {isPostAdmin ? (
+        <EditPostForm post={post} />
+      ) : (
+        <p className="whitespace-pre-line">{post.message}</p>
+      )}
 
       {user && (
         <h2 className="text-2xl" id="replies">
@@ -112,7 +116,7 @@ async function RepliesList({
   return (
     <div className="flex flex-col gap-4">
       {replies.map((reply) => (
-        <ReplyCard reply={reply} />
+        <ReplyCard key={reply.id} reply={reply} />
       ))}
 
       {isMember && <PostReplyForm projectId={projectId} postId={postId} />}
